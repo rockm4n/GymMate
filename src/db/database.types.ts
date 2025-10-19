@@ -258,9 +258,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_booking: {
+        Args: { p_scheduled_class_id: string; p_user_id: string }
+        Returns: Json
+      }
       get_my_role: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      get_scheduled_classes: {
+        Args: { end_filter?: string; start_filter?: string }
+        Returns: {
+          bookings_count: number
+          capacity: number
+          class: Json
+          end_time: string
+          id: string
+          instructor: Json
+          start_time: string
+          status: string
+        }[]
       }
     }
     Enums: {
