@@ -59,6 +59,7 @@ export const GET: APIRoute = async ({ url, locals }) => {
     });
   } catch (error) {
     // Log error for debugging
+    // eslint-disable-next-line no-console
     console.error("Error fetching scheduled classes:", error);
 
     // Return generic error response

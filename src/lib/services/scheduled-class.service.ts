@@ -18,8 +18,8 @@ export async function getScheduledClasses(
   endTime?: string
 ): Promise<ScheduledClassDto[]> {
   const { data, error } = await supabase.rpc("get_scheduled_classes", {
-    start_filter: startTime || null,
-    end_filter: endTime || null,
+    start_filter: startTime,
+    end_filter: endTime,
   });
 
   if (error) {
@@ -28,4 +28,3 @@ export async function getScheduledClasses(
 
   return data as ScheduledClassDto[];
 }
-
