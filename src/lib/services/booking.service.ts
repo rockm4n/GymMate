@@ -7,7 +7,14 @@ import type { BookingDto, CreateBookingCommand } from "../../types";
 export class BookingError extends Error {
   constructor(
     message: string,
-    public code: "NOT_FOUND" | "ALREADY_BOOKED" | "CLASS_FULL" | "CLASS_NOT_AVAILABLE" | "DATABASE_ERROR"
+    public code:
+      | "NOT_FOUND"
+      | "ALREADY_BOOKED"
+      | "CLASS_FULL"
+      | "CLASS_NOT_AVAILABLE"
+      | "DATABASE_ERROR"
+      | "UNAUTHORIZED"
+      | "TOO_LATE_TO_CANCEL"
   ) {
     super(message);
     this.name = "BookingError";
@@ -67,4 +74,135 @@ export async function createBooking(
 
   // The RPC function returns the BookingDto directly as JSONB
   return data as unknown as BookingDto;
+}
+
+/**
+ * Deletes a booking by ID.
+ * Validates that:
+ * - The booking exists
+ * - The booking belongs to the requesting user
+ * - The class hasn't started yet (at least 8 hours before start time)
+ *
+ * @param supabase - Supabase client instance
+ * @param userId - ID of the user requesting deletion
+ * @param bookingId - ID of the booking to delete
+ * @throws BookingError with appropriate error code
+ */
+export async function deleteBooking(
+  supabase: SupabaseClient,
+  userId: string,
+  bookingId: string
+): Promise<void> {
+  // First, fetch the booking to verify ownership and check cancellation policy
+  const { data: booking, error: fetchError } = await supabase
+    .from("bookings")
+    .select(
+      `
+      id,
+      user_id,
+      scheduled_class:scheduled_classes!inner (
+        start_time
+      )
+    `
+    )
+    .eq("id", bookingId)
+    .single();
+
+  if (fetchError || !booking) {
+    throw new BookingError(`Booking with ID ${bookingId} not found`, "NOT_FOUND");
+  }
+
+  // Verify ownership
+  if (booking.user_id !== userId) {
+    throw new BookingError("You are not authorized to cancel this booking", "UNAUTHORIZED");
+  }
+
+  // Check cancellation policy (at least 8 hours before class start)
+  const startTime = new Date(booking.scheduled_class.start_time);
+  const now = new Date();
+  const hoursUntilStart = (startTime.getTime() - now.getTime()) / (1000 * 60 * 60);
+
+  if (hoursUntilStart < 8) {
+    throw new BookingError(
+      "Bookings can only be cancelled at least 8 hours before the class starts",
+      "TOO_LATE_TO_CANCEL"
+    );
+  }
+
+  // Delete the booking
+  const { error: deleteError } = await supabase.from("bookings").delete().eq("id", bookingId);
+
+  if (deleteError) {
+    throw new BookingError(`Failed to delete booking: ${deleteError.message}`, "DATABASE_ERROR");
+  }
+}
+
+/**
+ * Gets all bookings for a user, optionally filtered by status.
+ * Returns bookings with related scheduled class, class, and instructor information.
+ *
+ * @param supabase - Supabase client instance
+ * @param userId - ID of the user
+ * @param status - Optional filter: 'UPCOMING' for future classes, 'PAST' for completed classes
+ * @returns Array of BookingDto
+ * @throws BookingError on database error
+ */
+export async function getUserBookings(
+  supabase: SupabaseClient,
+  userId: string,
+  status?: "UPCOMING" | "PAST"
+): Promise<BookingDto[]> {
+  let query = supabase
+    .from("bookings")
+    .select(
+      `
+      id,
+      created_at,
+      scheduled_class:scheduled_classes!inner (
+        id,
+        start_time,
+        end_time,
+        class:classes!inner (
+          name
+        ),
+        instructor:instructors (
+          full_name
+        )
+      )
+    `
+    )
+    .eq("user_id", userId)
+    .order("scheduled_class(start_time)", { ascending: false });
+
+  // Apply status filter if provided
+  if (status === "UPCOMING") {
+    query = query.gte("scheduled_class.start_time", new Date().toISOString());
+  } else if (status === "PAST") {
+    query = query.lt("scheduled_class.start_time", new Date().toISOString());
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    throw new BookingError(`Failed to fetch user bookings: ${error.message}`, "DATABASE_ERROR");
+  }
+
+  // Transform the data to match BookingDto structure
+  return (data || []).map((booking) => ({
+    id: booking.id,
+    created_at: booking.created_at,
+    scheduled_class: {
+      id: booking.scheduled_class.id,
+      start_time: booking.scheduled_class.start_time,
+      end_time: booking.scheduled_class.end_time,
+      class: {
+        name: booking.scheduled_class.class.name,
+      },
+      instructor: booking.scheduled_class.instructor
+        ? {
+            full_name: booking.scheduled_class.instructor.full_name,
+          }
+        : null,
+    },
+  }));
 }

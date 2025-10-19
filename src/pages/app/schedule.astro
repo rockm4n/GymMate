@@ -1,0 +1,12 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { ScheduleView } from "../../components/ScheduleView";
+
+// This page requires authentication
+// The middleware will handle redirecting unauthenticated users
+---
+
+<Layout title="Harmonogram zajęć - GymMate">
+  <ScheduleView client:load />
+</Layout>
+
