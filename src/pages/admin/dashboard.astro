@@ -1,0 +1,15 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { AdminDashboardView } from "../../components/views/AdminDashboardView";
+
+// This page requires authentication with STAFF role
+// The middleware will handle redirecting unauthenticated users
+// and users without proper role
+---
+
+<Layout title="Panel Administracyjny - GymMate">
+  <div class="container mx-auto px-4 py-8">
+    <AdminDashboardView client:load />
+  </div>
+</Layout>
+

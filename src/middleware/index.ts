@@ -38,35 +38,47 @@ export const onRequest = defineMiddleware(async (context, next) => {
     context.locals.profile = null;
   }
 
-  // Check authorization for admin routes
+  // Check authorization for admin routes (both API and pages)
   const url = new URL(context.request.url);
-  if (url.pathname.startsWith("/api/admin/")) {
+  const isAdminRoute = url.pathname.startsWith("/api/admin/") || url.pathname.startsWith("/admin/");
+  
+  if (isAdminRoute) {
     // Admin routes require authentication
     if (!context.locals.user) {
-      return new Response(
-        JSON.stringify({
-          error: "Unauthorized",
-          message: "Authentication required. Please provide a valid JWT token.",
-        }),
-        {
-          status: 401,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      // For API routes, return JSON error
+      if (url.pathname.startsWith("/api/")) {
+        return new Response(
+          JSON.stringify({
+            error: "Unauthorized",
+            message: "Authentication required. Please provide a valid JWT token.",
+          }),
+          {
+            status: 401,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+      }
+      // For page routes, redirect to home
+      return context.redirect("/", 302);
     }
 
     // Admin routes require STAFF role
     if (!context.locals.profile || context.locals.profile.role !== "staff") {
-      return new Response(
-        JSON.stringify({
-          error: "Forbidden",
-          message: "Access denied. This resource requires STAFF privileges.",
-        }),
-        {
-          status: 403,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      // For API routes, return JSON error
+      if (url.pathname.startsWith("/api/")) {
+        return new Response(
+          JSON.stringify({
+            error: "Forbidden",
+            message: "Access denied. This resource requires STAFF privileges.",
+          }),
+          {
+            status: 403,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+      }
+      // For page routes, redirect to home
+      return context.redirect("/", 302);
     }
   }
 
