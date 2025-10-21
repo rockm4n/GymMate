@@ -4,7 +4,12 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../co
 import { RegisterForm } from "../components/auth/RegisterForm";
 
 // If user is already authenticated, redirect to schedule
-// This will be implemented when middleware is ready
+// Middleware handles this redirect automatically
+const { user } = Astro.locals;
+
+if (user) {
+  return Astro.redirect("/app/schedule", 302);
+}
 ---
 
 <Layout title="Zarejestruj się - GymMate">

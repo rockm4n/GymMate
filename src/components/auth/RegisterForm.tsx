@@ -47,11 +47,34 @@ export function RegisterForm() {
       return;
     }
 
-    // TODO: Implement Supabase registration
-    // This will be implemented in the next phase
-    console.log("Registration attempt:", result.data);
-    
-    setIsLoading(false);
+    try {
+      // Call register API endpoint
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result.data),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Display server error message
+        setGeneralError(data.error || "Wystąpił błąd podczas rejestracji");
+        setIsLoading(false);
+        return;
+      }
+
+      // Registration successful - redirect to schedule page
+      // Per PRD US-001: user is automatically logged in after registration
+      // Using window.location.href for full page reload to ensure fresh SSR data
+      window.location.href = "/app/schedule";
+    } catch (error) {
+      console.error("Registration error:", error);
+      setGeneralError("Wystąpił błąd połączenia. Spróbuj ponownie.");
+      setIsLoading(false);
+    }
   };
 
   return (

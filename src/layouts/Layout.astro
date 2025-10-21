@@ -10,10 +10,10 @@ interface Props {
 
 const { title = "10x Astro Starter", showNav = false } = Astro.props;
 
-// In the future, this will get session data from Astro.locals
-// For now, we just pass static props to demonstrate the UI
-const isAuthenticated = false;
-const userEmail = "";
+// Get user session data from middleware
+const { user } = Astro.locals;
+const isAuthenticated = !!user;
+const userEmail = user?.email || "";
 ---
 
 <!doctype html>

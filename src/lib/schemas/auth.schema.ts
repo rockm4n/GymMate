@@ -8,7 +8,7 @@ export const loginSchema = z.object({
   password: z
     .string()
     .min(1, "Hasło jest wymagane")
-    .min(6, "Hasło musi mieć co najmniej 6 znaków"),
+    .min(8, "Hasło musi mieć co najmniej 8 znaków"),
 });
 
 export const registerSchema = z
@@ -20,7 +20,7 @@ export const registerSchema = z
     password: z
       .string()
       .min(1, "Hasło jest wymagane")
-      .min(6, "Hasło musi mieć co najmniej 6 znaków"),
+      .min(8, "Hasło musi mieć co najmniej 8 znaków"),
     confirmPassword: z
       .string()
       .min(1, "Potwierdzenie hasła jest wymagane"),
@@ -42,7 +42,7 @@ export const updatePasswordSchema = z
     password: z
       .string()
       .min(1, "Hasło jest wymagane")
-      .min(6, "Hasło musi mieć co najmniej 6 znaków"),
+      .min(8, "Hasło musi mieć co najmniej 8 znaków"),
     confirmPassword: z
       .string()
       .min(1, "Potwierdzenie hasła jest wymagane"),

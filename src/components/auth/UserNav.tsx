@@ -8,11 +8,33 @@ interface UserNavProps {
 
 export function UserNav({ isAuthenticated = false, userEmail }: UserNavProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const handleLogout = () => {
-    // TODO: Implement Supabase logout
-    // This will be implemented in the next phase
-    console.log("Logout clicked");
+  const handleLogout = async () => {
+    if (isLoggingOut) return;
+
+    setIsLoggingOut(true);
+    
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        // Logout successful - redirect to home page
+        // Using window.location.href for full page reload to clear all client state
+        window.location.href = "/";
+      } else {
+        console.error("Logout failed");
+        setIsLoggingOut(false);
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      setIsLoggingOut(false);
+    }
   };
 
   if (!isAuthenticated) {
@@ -117,7 +139,8 @@ export function UserNav({ isAuthenticated = false, userEmail }: UserNavProps) {
 
             <button
               onClick={handleLogout}
-              className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-accent transition-colors text-destructive"
+              disabled={isLoggingOut}
+              className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-accent transition-colors text-destructive disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +157,7 @@ export function UserNav({ isAuthenticated = false, userEmail }: UserNavProps) {
                 <polyline points="16 17 21 12 16 7" />
                 <line x1="21" y1="12" x2="9" y2="12" />
               </svg>
-              Wyloguj się
+              {isLoggingOut ? "Wylogowywanie..." : "Wyloguj się"}
             </button>
           </div>
         </>
