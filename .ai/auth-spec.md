@@ -68,8 +68,8 @@ Nie ma potrzeby tworzenia dedykowanych endpointów API (`/api/login`, `/api/regi
 
 ### 4.2. Procesy Autentykacji
 
--   **Rejestracja**: W komponencie `RegisterForm.tsx` zostanie wywołana funkcja `supabase.auth.signUp()`. Zgodnie z wymaganiem PRD (US-001), proces zakłada automatyczne zalogowanie użytkownika. W tym celu w panelu Supabase zostanie wyłączona opcja "Confirm email".
--   **Logowanie**: W `LoginForm.tsx` zostanie użyta funkcja `supabase.auth.signInWithPassword()`. Po pomyślnym zalogowaniu, biblioteka `supabase-js` automatycznie zapisze sesję w `localStorage` oraz ustawi odpowiednie ciasteczka `httpOnly` do obsługi sesji po stronie serwera.
+-   **Rejestracja**: W komponencie `RegisterForm.tsx` zostanie wywołana funkcja `supabase.auth.signUp()`. Zgodnie z wymaganiem PRD (US-001), proces zakłada automatyczne zalogowanie użytkownika. W tym celu w panelu Supabase zostanie wyłączona opcja "Confirm email". Po pomyślnej rejestracji, użytkownik zostanie przekierowany do widoku kalendarza (`/app/schedule`).
+-   **Logowanie**: W `LoginForm.tsx` zostanie użyta funkcja `supabase.auth.signInWithPassword()`. Po pomyślnym zalogowaniu, biblioteka `supabase-js` automatycznie zapisze sesję w `localStorage` oraz ustawi odpowiednie ciasteczka `httpOnly` do obsługi sesji po stronie serwera. Następnie, użytkownik zostanie przekierowany do widoku kalendarza (`/app/schedule`).
 -   **Wylogowanie**: W `UserNav.tsx` zostanie wywołana funkcja `supabase.auth.signOut()`, która usunie sesję z `localStorage` i wyczyści ciasteczka.
 -   **Odzyskiwanie Hasła**:
     1.  Na stronie `/forgot-password`, komponent `ForgotPasswordForm.tsx` wywoła `supabase.auth.resetPasswordForEmail()`, podając adres URL do strony `/update-password` jako `redirectTo`.
