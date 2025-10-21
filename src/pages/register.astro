@@ -1,0 +1,32 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../components/ui/card";
+import { RegisterForm } from "../components/auth/RegisterForm";
+
+// If user is already authenticated, redirect to schedule
+// This will be implemented when middleware is ready
+---
+
+<Layout title="Zarejestruj się - GymMate">
+  <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-br from-background to-muted/20">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold tracking-tight">GymMate</h1>
+        <p class="text-muted-foreground mt-2">Twój osobisty trener w kieszeni</p>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Utwórz konto</CardTitle>
+          <CardDescription>
+            Wypełnij formularz, aby rozpocząć swoją przygodę z treningiem
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <RegisterForm client:load />
+        </CardContent>
+      </Card>
+    </div>
+  </div>
+</Layout>
+

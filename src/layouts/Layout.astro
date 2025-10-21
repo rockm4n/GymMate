@@ -1,12 +1,19 @@
 ---
 import "../styles/global.css";
 import { Toaster } from "../components/ui/sonner";
+import { UserNav } from "../components/auth/UserNav";
 
 interface Props {
   title?: string;
+  showNav?: boolean;
 }
 
-const { title = "10x Astro Starter" } = Astro.props;
+const { title = "10x Astro Starter", showNav = false } = Astro.props;
+
+// In the future, this will get session data from Astro.locals
+// For now, we just pass static props to demonstrate the UI
+const isAuthenticated = false;
+const userEmail = "";
 ---
 
 <!doctype html>
@@ -19,6 +26,16 @@ const { title = "10x Astro Starter" } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    {showNav && (
+      <header class="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+        <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+          <a href="/" class="flex items-center gap-2 font-bold text-xl">
+            <span class="text-primary">GymMate</span>
+          </a>
+          <UserNav client:load isAuthenticated={isAuthenticated} userEmail={userEmail} />
+        </div>
+      </header>
+    )}
     <slot />
     <Toaster client:load />
   </body>
