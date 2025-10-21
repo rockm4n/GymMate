@@ -1,27 +1,49 @@
 /**
- * This file contains View Models for the application.
- * View Models extend DTOs with UI-specific state and logic.
+ * Utility functions for transforming DTOs to View Models.
  */
 
-import type { ScheduledClassDto } from "../types";
+import type { BookingDto, BookingViewModel } from "@/types";
 
 /**
- * Extends ScheduledClassDto with state specific to the logged-in user
- * and flags to facilitate UI logic.
+ * Transforms a BookingDto into a BookingViewModel with computed properties.
  */
-export type ScheduleViewModel = ScheduledClassDto & {
-  // Status of the logged-in user relative to this class
-  userStatus: "BOOKED" | "WAITING_LIST" | "AVAILABLE";
+export function transformBookingToViewModel(booking: BookingDto): BookingViewModel {
+  const startTime = new Date(booking.scheduled_class.start_time);
+  const endTime = new Date(booking.scheduled_class.end_time);
+  const now = new Date();
 
-  // IDs of booking or waiting list entry, needed for cancellation
-  bookingId: string | null;
-  waitingListEntryId: string | null;
+  // Rezerwacja jest anulowalna jeśli do startu zostało więcej niż 8 godzin
+  const cancellationDeadline = new Date(startTime.getTime() - 8 * 60 * 60 * 1000);
+  const isCancellable = now < cancellationDeadline;
 
-  // Boolean flags to control UI logic
-  isFull: boolean; // Is the class full? (bookings_count >= capacity)
-  hasStarted: boolean; // Has the class already started? (start_time < now)
-  isBookable: boolean; // Can the user book? (!isFull && !hasStarted && userStatus === 'AVAILABLE')
-  isCancellable: boolean; // Can the user cancel booking? (userStatus === 'BOOKED' && start_time > 8 hours from now)
-  isWaitlistable: boolean; // Can the user join waiting list? (isFull && !hasStarted && userStatus === 'AVAILABLE')
-};
+  // Rezerwacja jest historyczna jeśli czas rozpoczęcia minął (zgodnie z logiką API)
+  const isHistorical = startTime < now;
 
+  // Formatowanie daty w polskim formacie
+  const formattedDate = startTime.toLocaleDateString("pl-PL", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  // Formatowanie czasu
+  const formattedTime = `${startTime.toLocaleTimeString("pl-PL", {
+    hour: "2-digit",
+    minute: "2-digit",
+  })} - ${endTime.toLocaleTimeString("pl-PL", {
+    hour: "2-digit",
+    minute: "2-digit",
+  })}`;
+
+  return {
+    id: booking.id,
+    className: booking.scheduled_class.class.name,
+    instructorName: booking.scheduled_class.instructor?.full_name ?? null,
+    startTime,
+    endTime,
+    formattedDate,
+    formattedTime,
+    isCancellable,
+    isHistorical,
+  };
+}

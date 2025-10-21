@@ -71,6 +71,27 @@ export interface AdminDashboardDto {
 
 // #endregion
 
+// #region View Models
+// View Models extend DTOs with computed properties for UI display.
+
+/**
+ * View Model for a booking, extending BookingDto with computed properties
+ * for easier rendering and logic in components.
+ */
+export interface BookingViewModel {
+  id: string;                      // ID rezerwacji
+  className: string;               // Nazwa zajęć
+  instructorName: string | null;   // Imię i nazwisko instruktora
+  startTime: Date;                 // Czas rozpoczęcia jako obiekt Date
+  endTime: Date;                   // Czas zakończenia jako obiekt Date
+  formattedDate: string;           // Sformatowana data, np. "20 października 2025"
+  formattedTime: string;           // Sformatowany czas, np. "09:00 - 10:00"
+  isCancellable: boolean;          // Flaga, czy rezerwację można anulować
+  isHistorical: boolean;           // Flaga, czy rezerwacja jest historyczna
+}
+
+// #endregion
+
 // #region Command Models
 // Command Models represent the shape of data sent from the client to the server for CUD operations.
 
