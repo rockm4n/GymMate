@@ -1,137 +1,128 @@
-<div
-  class="relative w-full mx-auto min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900 p-4 sm:p-8"
->
-  <div
-    class="relative max-w-4xl mx-auto backdrop-blur-xl bg-gradient-to-b from-white/10 to-white/5 rounded-2xl shadow-2xl p-8 text-white border border-white/10"
-  >
-    <div class="space-y-8">
-      <div class="text-center">
-        <h1
-          class="text-6xl font-bold mb-4 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-transparent bg-clip-text drop-shadow-lg"
-        >
-          Witaj w 10xDevs Astro Starter!
+<!-- Hero section with background image -->
+<div class="relative w-full min-h-screen">
+  <!-- Background image with overlay -->
+  <div class="absolute inset-0 z-0">
+    <img 
+      src="/background.jpg" 
+      alt="Gym background" 
+      class="w-full h-full object-cover"
+    />
+    <!-- Dark overlay for better text readability -->
+    <div class="absolute inset-0 bg-black/60"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+    <!-- Header with GymMate title -->
+    <header class="pt-8 pb-6">
+      <div class="container mx-auto px-4">
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-center text-white drop-shadow-2xl">
+          GymMate
         </h1>
-        <p class="text-xl text-blue-100/90 drop-shadow-md">
-          Ten projekt został zbudowany w oparciu o nowoczesny stack technologiczny:
+        <p class="text-xl md:text-2xl text-center text-white/90 mt-4 drop-shadow-lg">
+          Twój osobisty trener w kieszeni
         </p>
       </div>
+    </header>
 
-      <div class="flex flex-col gap-6 max-w-2xl mx-auto">
-        <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
-          <h2
-            class="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-purple-200"
-          >
-            Core
-          </h2>
-          <ul class="space-y-3">
-            <li class="flex items-center space-x-3">
-              <span class="font-mono bg-blue-900/50 px-3 py-1.5 rounded-lg text-blue-200 shadow-sm">Astro v5.5.5</span>
-              <span class="text-blue-100/90">- Metaframework do aplikacji webowych</span>
-            </li>
-            <li class="flex items-center space-x-3">
-              <span class="font-mono bg-blue-900/50 px-3 py-1.5 rounded-lg text-blue-200 shadow-sm">React v19</span>
-              <span class="text-blue-100/90">- Biblioteka UI do komponentów interaktywnych</span>
-            </li>
-            <li class="flex items-center space-x-3">
-              <span class="font-mono bg-blue-900/50 px-3 py-1.5 rounded-lg text-blue-200 shadow-sm">TypeScript</span>
-              <span class="text-blue-100/90">- Typowanie statyczne</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
-          <h2
-            class="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-purple-200"
-          >
-            Stylowanie
-          </h2>
-          <ul class="space-y-3">
-            <li class="flex items-center space-x-3">
-              <span class="font-mono bg-blue-900/50 px-3 py-1.5 rounded-lg text-blue-200 shadow-sm"
-                >Tailwind CSS v4</span
-              >
-              <span class="text-blue-100/90">- Utility-first CSS framework</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
-          <h2
-            class="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-purple-200"
-          >
-            Statyczna analiza kodu
-          </h2>
-          <ul class="space-y-3">
-            <li class="flex items-center space-x-3">
-              <span class="font-mono bg-blue-900/50 px-3 py-1.5 rounded-lg text-blue-200 shadow-sm">ESLint v9</span>
-              <span class="text-blue-100/90">- Lintowanie kodu</span>
-            </li>
-            <li class="flex items-center space-x-3">
-              <span class="font-mono bg-blue-900/50 px-3 py-1.5 rounded-lg text-blue-200 shadow-sm">Prettier</span>
-              <span class="text-blue-100/90">- Formatowanie kodu</span>
-            </li>
-            <li class="flex items-center space-x-3">
-              <span class="font-mono bg-blue-900/50 px-3 py-1.5 rounded-lg text-blue-200 shadow-sm"
-                >Husky i Lint-staged</span
-              >
-              <span class="text-blue-100/90">- Automatyczna analiza kodu przed commitowaniem</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
-        <h2
-          class="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-purple-200"
-        >
-          Nawigacja
-        </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <a
-            href="/login"
-            class="block bg-blue-900/50 hover:bg-blue-800/50 px-4 py-3 rounded-lg text-blue-200 shadow-sm transition-colors text-center font-medium"
-          >
-            Logowanie
-          </a>
-          <a
-            href="/register"
-            class="block bg-blue-900/50 hover:bg-blue-800/50 px-4 py-3 rounded-lg text-blue-200 shadow-sm transition-colors text-center font-medium"
-          >
-            Rejestracja
-          </a>
-          <a
-            href="/forgot-password"
-            class="block bg-blue-900/50 hover:bg-blue-800/50 px-4 py-3 rounded-lg text-blue-200 shadow-sm transition-colors text-center font-medium"
-          >
-            Zapomniałem hasła
-          </a>
-          <a
-            href="/update-password"
-            class="block bg-blue-900/50 hover:bg-blue-800/50 px-4 py-3 rounded-lg text-blue-200 shadow-sm transition-colors text-center font-medium"
-          >
-            Zmiana hasła
-          </a>
+    <!-- Main content with navigation links -->
+    <main class="flex-1 flex items-center justify-center px-4 py-12">
+      <div class="max-w-4xl w-full">
+        <!-- Navigation cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <!-- Harmonogram zajęć -->
           <a
             href="/app/schedule"
-            class="block bg-purple-900/50 hover:bg-purple-800/50 px-4 py-3 rounded-lg text-purple-200 shadow-sm transition-colors text-center font-medium"
+            class="group relative overflow-hidden bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/20 rounded-2xl p-6 md:p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            Harmonogram zajęć
+            <div class="relative z-10">
+              <div class="text-4xl mb-4">📅</div>
+              <h2 class="text-2xl font-bold text-white mb-2">Harmonogram</h2>
+              <p class="text-white/80">Przeglądaj dostępne zajęcia</p>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </a>
+
+          <!-- Mój profil -->
           <a
             href="/app/profile"
-            class="block bg-purple-900/50 hover:bg-purple-800/50 px-4 py-3 rounded-lg text-purple-200 shadow-sm transition-colors text-center font-medium"
+            class="group relative overflow-hidden bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/20 rounded-2xl p-6 md:p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            Profil użytkownika
+            <div class="relative z-10">
+              <div class="text-4xl mb-4">👤</div>
+              <h2 class="text-2xl font-bold text-white mb-2">Mój Profil</h2>
+              <p class="text-white/80">Zarządzaj swoim kontem</p>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </a>
+
+          <!-- Moje rezerwacje -->
+          <a
+            href="/app/bookings"
+            class="group relative overflow-hidden bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/20 rounded-2xl p-6 md:p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+          >
+            <div class="relative z-10">
+              <div class="text-4xl mb-4">🎟️</div>
+              <h2 class="text-2xl font-bold text-white mb-2">Rezerwacje</h2>
+              <p class="text-white/80">Sprawdź swoje zapisy</p>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </a>
+
+          <!-- Logowanie -->
+          <a
+            href="/login"
+            class="group relative overflow-hidden bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/20 rounded-2xl p-6 md:p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+          >
+            <div class="relative z-10">
+              <div class="text-4xl mb-4">🔑</div>
+              <h2 class="text-2xl font-bold text-white mb-2">Zaloguj się</h2>
+              <p class="text-white/80">Dostęp do konta</p>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </a>
+
+          <!-- Rejestracja -->
+          <a
+            href="/register"
+            class="group relative overflow-hidden bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/20 rounded-2xl p-6 md:p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+          >
+            <div class="relative z-10">
+              <div class="text-4xl mb-4">✍️</div>
+              <h2 class="text-2xl font-bold text-white mb-2">Rejestracja</h2>
+              <p class="text-white/80">Dołącz do nas</p>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </a>
+
+          <!-- Zapomniałem hasła -->
+          <a
+            href="/forgot-password"
+            class="group relative overflow-hidden bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/20 rounded-2xl p-6 md:p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+          >
+            <div class="relative z-10">
+              <div class="text-4xl mb-4">🔓</div>
+              <h2 class="text-2xl font-bold text-white mb-2">Zapomniałem hasła</h2>
+              <p class="text-white/80">Odzyskaj dostęp</p>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </a>
         </div>
-      </div>
 
-      <p class="text-lg text-center text-blue-100/90 mt-8 leading-relaxed">
-        Starter zawiera wszystko, czego potrzebujesz do rozpoczęcia tworzenia <br class="hidden sm:block" />
-        <span class="font-semibold bg-gradient-to-r from-blue-200 to-purple-200 text-transparent bg-clip-text"
-          >nowoczesnych aplikacji webowych!</span
-        >
-      </p>
-    </div>
+        <!-- Call to action -->
+        <div class="mt-12 text-center">
+          <div class="inline-block bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-8 py-6">
+            <p class="text-white text-lg md:text-xl font-medium">
+              Rozpocznij swoją przygodę z fitnessem już dziś!
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-white/60">
+      <p>&copy; 2025 GymMate. Wszystkie prawa zastrzeżone.</p>
+    </footer>
   </div>
 </div>

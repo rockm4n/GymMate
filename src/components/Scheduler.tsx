@@ -3,10 +3,12 @@
  */
 
 import type { ScheduleViewModel } from "../lib/view-models";
+import { WeeklyScheduleGrid } from "./WeeklyScheduleGrid";
 import { SchedulerItem } from "./SchedulerItem";
 
 interface SchedulerProps {
   classes: ScheduleViewModel[];
+  currentWeekStart: Date;
   onClassSelect: (classItem: ScheduleViewModel) => void;
 }
 
@@ -48,80 +50,57 @@ function groupClassesByDay(classes: ScheduleViewModel[]): Map<string, ScheduleVi
   return grouped;
 }
 
-export function Scheduler({ classes, onClassSelect }: SchedulerProps) {
-  // Handle empty state
-  if (classes.length === 0) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center">
-          <p className="text-xl text-muted-foreground mb-2">Brak zajęć w tym tygodniu</p>
-          <p className="text-sm text-muted-foreground">Sprawdź inny tydzień lub wróć później</p>
-        </div>
-      </div>
-    );
-  }
-
+export function Scheduler({ classes, currentWeekStart, onClassSelect }: SchedulerProps) {
   const groupedClasses = groupClassesByDay(classes);
   const sortedDays = Array.from(groupedClasses.keys()).sort();
 
   return (
     <div className="space-y-8">
-      {/* Desktop view: Grid layout */}
-      <div className="hidden md:grid md:grid-cols-7 gap-4">
-        {sortedDays.map((dayKey) => {
-          const dayClasses = groupedClasses.get(dayKey)!;
-          const date = new Date(dayKey);
-
-          return (
-            <div key={dayKey} className="space-y-3">
-              {/* Day header */}
-              <div className="text-center pb-2 border-b">
-                <h3 className="font-semibold capitalize">{getDayName(date)}</h3>
-                <p className="text-sm text-muted-foreground">{getShortDate(date)}</p>
-              </div>
-
-              {/* Classes for this day */}
-              <div className="space-y-3">
-                {dayClasses.map((classItem) => (
-                  <SchedulerItem
-                    key={classItem.id}
-                    classItem={classItem}
-                    onClick={() => onClassSelect(classItem)}
-                  />
-                ))}
-              </div>
-            </div>
-          );
-        })}
+      {/* Desktop view: Weekly grid with time slots */}
+      <div className="hidden md:block">
+        <WeeklyScheduleGrid
+          classes={classes}
+          currentWeekStart={currentWeekStart}
+          onClassSelect={onClassSelect}
+        />
       </div>
 
       {/* Mobile view: List layout */}
       <div className="md:hidden space-y-6">
-        {sortedDays.map((dayKey) => {
-          const dayClasses = groupedClasses.get(dayKey)!;
-          const date = new Date(dayKey);
-
-          return (
-            <div key={dayKey} className="space-y-3">
-              {/* Day header */}
-              <div className="flex items-center justify-between pb-2 border-b">
-                <h3 className="font-semibold text-lg capitalize">{getDayName(date)}</h3>
-                <p className="text-sm text-muted-foreground">{getShortDate(date)}</p>
-              </div>
-
-              {/* Classes for this day */}
-              <div className="space-y-3">
-                {dayClasses.map((classItem) => (
-                  <SchedulerItem
-                    key={classItem.id}
-                    classItem={classItem}
-                    onClick={() => onClassSelect(classItem)}
-                  />
-                ))}
-              </div>
+        {classes.length === 0 ? (
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <p className="text-xl text-muted-foreground mb-2">Brak zajęć w tym tygodniu</p>
+              <p className="text-sm text-muted-foreground">Sprawdź inny tydzień lub wróć później</p>
             </div>
-          );
-        })}
+          </div>
+        ) : (
+          sortedDays.map((dayKey) => {
+            const dayClasses = groupedClasses.get(dayKey)!;
+            const date = new Date(dayKey);
+
+            return (
+              <div key={dayKey} className="space-y-3">
+                {/* Day header */}
+                <div className="flex items-center justify-between pb-2 border-b">
+                  <h3 className="font-semibold text-lg capitalize">{getDayName(date)}</h3>
+                  <p className="text-sm text-muted-foreground">{getShortDate(date)}</p>
+                </div>
+
+                {/* Classes for this day */}
+                <div className="space-y-3">
+                  {dayClasses.map((classItem) => (
+                    <SchedulerItem
+                      key={classItem.id}
+                      classItem={classItem}
+                      onClick={() => onClassSelect(classItem)}
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

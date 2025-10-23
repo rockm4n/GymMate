@@ -34,7 +34,7 @@ if (import.meta.env.DEV && user) {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -42,7 +42,7 @@ if (import.meta.env.DEV && user) {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class="dark">
     {showNav && (
       <header class="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div class="container mx-auto px-4 h-16 flex items-center justify-between">

@@ -35,7 +35,7 @@ export type ProfileDto = Omit<Profile, "updated_at">;
  * and the current number of bookings. This is a composite type built for client-side display.
  */
 export type ScheduledClassDto = Pick<ScheduledClass, "id" | "start_time" | "end_time" | "capacity" | "status"> & {
-  class: Pick<Class, "id" | "name">;
+  class: Pick<Class, "id" | "name" | "color">;
   instructor: Pick<Instructor, "id" | "full_name"> | null;
   bookings_count: number;
 };
@@ -45,7 +45,7 @@ export type ScheduledClassDto = Pick<ScheduledClass, "id" | "start_time" | "end_
  */
 export type BookingDto = Pick<Booking, "id" | "created_at"> & {
   scheduled_class: Pick<ScheduledClass, "id" | "start_time" | "end_time"> & {
-    class: Pick<Class, "name">;
+    class: Pick<Class, "id" | "name" | "color">;
     instructor: Pick<Instructor, "full_name"> | null;
   };
 };

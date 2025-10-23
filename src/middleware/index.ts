@@ -31,59 +31,30 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Make supabase client available in context.locals
   context.locals.supabase = supabase;
 
-  // HYBRID AUTH APPROACH:
-  // 1. For SSR (pages): use cookie-based session from Supabase SSR
-  // 2. For API: use JWT Bearer token from Authorization header
+  // UNIFIED AUTH APPROACH:
+  // Use cookie-based session from Supabase SSR for both pages and API routes
+  // This is simpler and works seamlessly with client-side fetch() calls
 
   let user = null;
   let profile = null;
 
-  // Check if this is an API route (except public auth endpoints)
-  const isApiRoute = url.pathname.startsWith("/api/");
-  const isPublicApiPath = PUBLIC_API_PATHS.includes(url.pathname);
+  // Get user from cookie-based session
+  const {
+    data: { user: sessionUser },
+  } = await supabase.auth.getUser();
 
-  if (isApiRoute && !isPublicApiPath) {
-    // API ROUTES: Use JWT Bearer token authentication
-    const authHeader = context.request.headers.get("authorization");
+  if (sessionUser) {
+    user = sessionUser;
 
-    if (authHeader) {
-      const token = authHeader.replace("Bearer ", "");
-      const { data, error } = await supabase.auth.getUser(token);
+    // Fetch user profile to get role information
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("id, full_name, role, created_at")
+      .eq("id", sessionUser.id)
+      .single();
 
-      if (!error && data.user) {
-        user = data.user;
-
-        // Fetch user profile to get role information
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .select("id, full_name, role, created_at")
-          .eq("id", data.user.id)
-          .single();
-
-        if (!profileError && profileData) {
-          profile = profileData;
-        }
-      }
-    }
-  } else {
-    // SSR PAGES: Use cookie-based session
-    const {
-      data: { user: sessionUser },
-    } = await supabase.auth.getUser();
-
-    if (sessionUser) {
-      user = sessionUser;
-
-      // Fetch user profile to get role information
-      const { data: profileData, error: profileError } = await supabase
-        .from("profiles")
-        .select("id, full_name, role, created_at")
-        .eq("id", sessionUser.id)
-        .single();
-
-      if (!profileError && profileData) {
-        profile = profileData;
-      }
+    if (!profileError && profileData) {
+      profile = profileData;
     }
   }
 

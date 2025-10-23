@@ -2,7 +2,21 @@
  * Utility functions for transforming DTOs to View Models.
  */
 
-import type { BookingDto, BookingViewModel } from "@/types";
+import type { BookingDto, BookingViewModel, ScheduledClassDto } from "@/types";
+
+/**
+ * ScheduleViewModel extends ScheduledClassDto with computed UI properties
+ */
+export type ScheduleViewModel = ScheduledClassDto & {
+  userStatus: "BOOKED" | "AVAILABLE";
+  bookingId: string | null;
+  waitingListEntryId: string | null;
+  isFull: boolean;
+  hasStarted: boolean;
+  isBookable: boolean;
+  isCancellable: boolean;
+  isWaitlistable: boolean;
+};
 
 /**
  * Transforms a BookingDto into a BookingViewModel with computed properties.

@@ -20,20 +20,6 @@ function formatTime(isoString: string): string {
 }
 
 /**
- * Get background color class based on user status
- */
-function getStatusColor(userStatus: ScheduleViewModel["userStatus"]): string {
-  switch (userStatus) {
-    case "BOOKED":
-      return "bg-primary/10 border-primary hover:bg-primary/20";
-    case "WAITING_LIST":
-      return "bg-amber-50 border-amber-300 hover:bg-amber-100 dark:bg-amber-950 dark:border-amber-800 dark:hover:bg-amber-900";
-    case "AVAILABLE":
-      return "bg-card border-border hover:bg-accent";
-  }
-}
-
-/**
  * Get status badge
  */
 function getStatusBadge(classItem: ScheduleViewModel): React.ReactNode {
@@ -41,13 +27,6 @@ function getStatusBadge(classItem: ScheduleViewModel): React.ReactNode {
     return (
       <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary text-primary-foreground">
         Zapisany
-      </span>
-    );
-  }
-  if (classItem.userStatus === "WAITING_LIST") {
-    return (
-      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-500 text-white dark:bg-amber-600">
-        Lista oczekujących
       </span>
     );
   }
@@ -70,17 +49,22 @@ function getStatusBadge(classItem: ScheduleViewModel): React.ReactNode {
 
 export function SchedulerItem({ classItem, onClick }: SchedulerItemProps) {
   const occupancyPercentage = (classItem.bookings_count / classItem.capacity) * 100;
-  const statusColor = getStatusColor(classItem.userStatus);
+  const classColor = classItem.class.color || "#3b82f6"; // Default to blue-500
+  const isBooked = classItem.userStatus === "BOOKED";
 
   return (
     <button
       onClick={onClick}
       className={cn(
-        "w-full text-left p-4 rounded-lg border-2 transition-all cursor-pointer",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        statusColor,
-        classItem.hasStarted && "opacity-60"
+        "w-full text-left p-4 rounded-lg border-2 border-border transition-all cursor-pointer relative",
+        "hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        classItem.hasStarted && "opacity-60",
+        isBooked && "bg-card"
       )}
+      style={{
+        borderLeftWidth: "6px",
+        borderLeftColor: classColor,
+      }}
       disabled={classItem.hasStarted}
     >
       <div className="space-y-3">

@@ -58,7 +58,11 @@ export function ScheduleView() {
           </div>
         </div>
       ) : (
-        <Scheduler classes={scheduledClasses} onClassSelect={selectClass} />
+        <Scheduler
+          classes={scheduledClasses}
+          currentWeekStart={currentWeekStartDate}
+          onClassSelect={selectClass}
+        />
       )}
 
       <ClassDetailsModal
