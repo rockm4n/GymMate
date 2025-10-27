@@ -46,6 +46,11 @@ The project is built with a modern tech stack, ensuring a high-quality, scalable
 - **[GitHub Actions](https://github.com/features/actions)**: For continuous integration and deployment pipelines.
 - **[DigitalOcean](https://www.digitalocean.com/)**: For hosting the application via Docker images.
 
+### Testing
+- **[Vitest](https://vitest.dev/)**: A blazing fast unit test framework.
+- **[React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)**: For testing React components.
+- **[Playwright](https://playwright.dev/)**: For end-to-end testing.
+
 ## Getting Started Locally
 
 To get a local copy up and running, follow these simple steps.
