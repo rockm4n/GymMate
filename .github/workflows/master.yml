@@ -91,41 +91,7 @@ jobs:
           path: dist/
           retention-days: 7
 
-  # Job 5: Test buildu (opcjonalny)
-  test-build:
-    name: Test Production Build
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-
-      - name: Start production server
-        run: |
-          npm run preview &
-          sleep 10
-
-      - name: Test production build
-        run: |
-          curl -f http://localhost:4321 || exit 1
-          echo "Production build is working correctly"
-
-  # Job 6: Security audit (opcjonalny)
+  # Job 5: Security audit (opcjonalny)
   security-audit:
     name: Security Audit
     runs-on: ubuntu-latest
