@@ -1,0 +1,14 @@
+# Ignore problematic markdown files with mixed code blocks
+.ai/
+README.testing.md
+TESTING_SETUP.md
+
+# Ignore build and dependency directories
+node_modules/
+dist/
+coverage/
+playwright-report/
+
+# Ignore generated files
+*.min.js
+*.min.css
