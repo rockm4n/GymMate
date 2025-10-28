@@ -40,13 +40,15 @@ export function transformBookingToViewModel(booking: BookingDto): BookingViewMod
     year: "numeric",
   });
 
-  // Formatowanie czasu
+  // Formatowanie czasu - używamy UTC aby uniknąć problemów ze strefami czasowymi
   const formattedTime = `${startTime.toLocaleTimeString("pl-PL", {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "UTC",
   })} - ${endTime.toLocaleTimeString("pl-PL", {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "UTC",
   })}`;
 
   return {

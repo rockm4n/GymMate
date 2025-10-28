@@ -51,7 +51,7 @@ describe("view-models", () => {
         startTime: new Date("2024-01-20T14:00:00Z"),
         endTime: new Date("2024-01-20T15:00:00Z"),
         formattedDate: "20 stycznia 2024",
-        formattedTime: "15:00 - 16:00",
+        formattedTime: "14:00 - 15:00",
         isCancellable: true,
         isHistorical: false,
       });
@@ -156,8 +156,8 @@ describe("view-models", () => {
       it("should format time range correctly", () => {
         const result = transformBookingToViewModel(mockBooking);
 
-        // 14:00 UTC - 15:00 UTC, but formatted in local timezone (UTC+1 = 15:00 - 16:00)
-        expect(result.formattedTime).toBe("15:00 - 16:00");
+        // 14:00 UTC - 15:00 UTC, formatted in UTC timezone
+        expect(result.formattedTime).toBe("14:00 - 15:00");
       });
 
       it("should format single digit hours correctly", () => {
@@ -171,7 +171,7 @@ describe("view-models", () => {
         };
 
         const result = transformBookingToViewModel(earlyMorningBooking);
-        expect(result.formattedTime).toBe("10:05 - 11:05");
+        expect(result.formattedTime).toBe("09:05 - 10:05");
       });
     });
 
@@ -187,7 +187,7 @@ describe("view-models", () => {
         };
 
         const result = transformBookingToViewModel(midnightBooking);
-        expect(result.formattedTime).toBe("01:00 - 02:00");
+        expect(result.formattedTime).toBe("00:00 - 01:00");
       });
 
       it("should handle class on different day than current date", () => {

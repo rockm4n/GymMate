@@ -42,7 +42,8 @@ describe("useSchedule", () => {
       const { result } = renderHook(() => useSchedule());
 
       // Should start with Monday of current week
-      const expectedWeekStart = new Date("2024-01-14T23:00:00Z"); // Monday, Jan 15, 2024 adjusted for timezone
+      // Mock time is 2024-01-15T12:00:00Z (Monday), so week start should be 2024-01-15T00:00:00Z
+      const expectedWeekStart = new Date("2024-01-15T00:00:00Z");
       expect(result.current.currentWeekStartDate).toEqual(expectedWeekStart);
 
       expect(result.current.scheduledClasses).toEqual([]);

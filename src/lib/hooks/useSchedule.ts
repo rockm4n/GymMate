@@ -28,33 +28,36 @@ interface UseScheduleReturn {
 
 /**
  * Helper function to get the start of the week (Monday) for a given date
+ * Uses UTC methods to avoid timezone issues
  */
 function getWeekStart(date: Date): Date {
   const d = new Date(date);
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
-  d.setDate(diff);
-  d.setHours(0, 0, 0, 0); // Set to start of day
+  const day = d.getUTCDay();
+  const diff = d.getUTCDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+  d.setUTCDate(diff);
+  d.setUTCHours(0, 0, 0, 0); // Set to start of day in UTC
   return d;
 }
 
 /**
  * Helper function to get the end of the week (Sunday) for a given date
+ * Uses UTC methods to avoid timezone issues
  */
 function getWeekEnd(date: Date): Date {
   const start = getWeekStart(date);
   const end = new Date(start);
-  end.setDate(start.getDate() + 6);
-  end.setHours(23, 59, 59, 999);
+  end.setUTCDate(start.getUTCDate() + 6);
+  end.setUTCHours(23, 59, 59, 999);
   return end;
 }
 
 /**
  * Helper function to add days to a date
+ * Uses UTC methods to avoid timezone issues
  */
 function addDays(date: Date, days: number): Date {
   const result = new Date(date);
-  result.setDate(result.getDate() + days);
+  result.setUTCDate(result.getUTCDate() + days);
   return result;
 }
 

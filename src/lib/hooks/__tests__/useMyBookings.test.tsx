@@ -419,7 +419,7 @@ describe("useMyBookings", () => {
       expect(booking).toHaveProperty("isCancellable");
       expect(booking.isHistorical).toBe(false); // Future booking should not be historical
       expect(booking.formattedDate).toBe("25 stycznia 2024");
-      expect(booking.formattedTime).toBe("15:00 - 16:00"); // Adjusted for timezone
+      expect(booking.formattedTime).toBe("14:00 - 15:00"); // UTC timezone
     });
 
     it("should mark past bookings as historical", async () => {
