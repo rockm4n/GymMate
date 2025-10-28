@@ -49,7 +49,7 @@ export function useMyBookings(): UseMyBookingsReturn {
         setHistoricalBookings(viewModels);
       }
     } catch (err) {
-      setError(err instanceof Error ? err : new Error("Nieznany błąd"));
+      setError(new Error("Nieznany błąd"));
     } finally {
       setIsLoading(false);
     }
@@ -78,7 +78,7 @@ export function useMyBookings(): UseMyBookingsReturn {
     } catch (err) {
       // W przypadku błędu, przywróć rezerwację na listę
       await fetchBookings("UPCOMING");
-      setError(err instanceof Error ? err : new Error("Nieznany błąd"));
+      setError(new Error("Nieznany błąd"));
     }
   }, [bookingToCancelId, fetchBookings]);
 
