@@ -61,10 +61,7 @@ function addDays(date: Date, days: number): Date {
 /**
  * Transforms ScheduledClassDto and BookingDto arrays into ScheduleViewModel array
  */
-function transformToViewModel(
-  scheduledClasses: ScheduledClassDto[],
-  userBookings: BookingDto[]
-): ScheduleViewModel[] {
+function transformToViewModel(scheduledClasses: ScheduledClassDto[], userBookings: BookingDto[]): ScheduleViewModel[] {
   const now = new Date();
   const bookingMap = new Map(userBookings.map((b) => [b.scheduled_class.id, b]));
 
@@ -115,9 +112,7 @@ export function useSchedule(): UseScheduleReturn {
 
       // Fetch scheduled classes and user bookings in parallel
       const [classesResponse, bookingsResponse] = await Promise.all([
-        fetch(
-          `/api/scheduled-classes?start_time=${weekStart.toISOString()}&end_time=${weekEnd.toISOString()}`
-        ),
+        fetch(`/api/scheduled-classes?start_time=${weekStart.toISOString()}&end_time=${weekEnd.toISOString()}`),
         fetch("/api/bookings/my?status=UPCOMING"),
       ]);
 
@@ -295,4 +290,3 @@ export function useSchedule(): UseScheduleReturn {
     refetch: fetchData,
   };
 }
-

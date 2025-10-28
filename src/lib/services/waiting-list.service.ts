@@ -7,12 +7,7 @@ import type { WaitingListEntryDto, CreateWaitingListEntryCommand } from "../../t
 export class WaitingListError extends Error {
   constructor(
     message: string,
-    public code:
-      | "NOT_FOUND"
-      | "CLASS_NOT_FULL"
-      | "ALREADY_ON_WAITING_LIST"
-      | "ALREADY_BOOKED"
-      | "DATABASE_ERROR"
+    public code: "NOT_FOUND" | "CLASS_NOT_FULL" | "ALREADY_ON_WAITING_LIST" | "ALREADY_BOOKED" | "DATABASE_ERROR"
   ) {
     super(message);
     this.name = "WaitingListError";
@@ -48,18 +43,12 @@ export async function createWaitingListEntry(
     .single();
 
   if (classError || !scheduledClass) {
-    throw new WaitingListError(
-      `Scheduled class with ID ${scheduled_class_id} not found`,
-      "NOT_FOUND"
-    );
+    throw new WaitingListError(`Scheduled class with ID ${scheduled_class_id} not found`, "NOT_FOUND");
   }
 
   // Step 2: Check if the class is available (not cancelled or completed)
   if (scheduledClass.status !== "scheduled") {
-    throw new WaitingListError(
-      "Cannot join waiting list for a class that is not scheduled",
-      "CLASS_NOT_FULL"
-    );
+    throw new WaitingListError("Cannot join waiting list for a class that is not scheduled", "CLASS_NOT_FULL");
   }
 
   // Step 3: Check if user is already booked for this class
@@ -71,17 +60,11 @@ export async function createWaitingListEntry(
     .maybeSingle();
 
   if (bookingCheckError) {
-    throw new WaitingListError(
-      `Failed to check existing bookings: ${bookingCheckError.message}`,
-      "DATABASE_ERROR"
-    );
+    throw new WaitingListError(`Failed to check existing bookings: ${bookingCheckError.message}`, "DATABASE_ERROR");
   }
 
   if (existingBooking) {
-    throw new WaitingListError(
-      "You are already booked for this class",
-      "ALREADY_BOOKED"
-    );
+    throw new WaitingListError("You are already booked for this class", "ALREADY_BOOKED");
   }
 
   // Step 4: Check if the class is full
@@ -91,10 +74,7 @@ export async function createWaitingListEntry(
     .eq("scheduled_class_id", scheduled_class_id);
 
   if (countError) {
-    throw new WaitingListError(
-      `Failed to check class capacity: ${countError.message}`,
-      "DATABASE_ERROR"
-    );
+    throw new WaitingListError(`Failed to check class capacity: ${countError.message}`, "DATABASE_ERROR");
   }
 
   // If capacity is set and class is not full, user cannot join waiting list
@@ -114,17 +94,11 @@ export async function createWaitingListEntry(
     .maybeSingle();
 
   if (waitingListCheckError) {
-    throw new WaitingListError(
-      `Failed to check waiting list: ${waitingListCheckError.message}`,
-      "DATABASE_ERROR"
-    );
+    throw new WaitingListError(`Failed to check waiting list: ${waitingListCheckError.message}`, "DATABASE_ERROR");
   }
 
   if (existingWaitingListEntry) {
-    throw new WaitingListError(
-      "You are already on the waiting list for this class",
-      "ALREADY_ON_WAITING_LIST"
-    );
+    throw new WaitingListError("You are already on the waiting list for this class", "ALREADY_ON_WAITING_LIST");
   }
 
   // Step 6: Insert the new waiting list entry
@@ -151,4 +125,3 @@ export async function createWaitingListEntry(
     scheduled_class_id: newEntry.scheduled_class_id,
   };
 }
-

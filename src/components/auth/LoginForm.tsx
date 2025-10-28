@@ -33,7 +33,7 @@ export function LoginForm() {
 
     // Validate form data
     const result = loginSchema.safeParse(formData);
-    
+
     if (!result.success) {
       const fieldErrors: Partial<Record<keyof LoginInput, string>> = {};
       result.error.errors.forEach((error) => {
@@ -68,8 +68,8 @@ export function LoginForm() {
       // Login successful - redirect to schedule page
       // Using window.location.href for full page reload to ensure fresh SSR data
       window.location.href = "/app/schedule";
-    } catch (error) {
-      console.error("Login error:", error);
+    } catch {
+      // Login error occurred
       setGeneralError("Wystąpił błąd połączenia. Spróbuj ponownie.");
       setIsLoading(false);
     }
@@ -116,10 +116,7 @@ export function LoginForm() {
       </FormItem>
 
       <div className="flex items-center justify-between">
-        <a
-          href="/forgot-password"
-          className="text-sm text-primary hover:underline underline-offset-4"
-        >
+        <a href="/forgot-password" className="text-sm text-primary hover:underline underline-offset-4">
           Zapomniałeś hasła?
         </a>
       </div>
@@ -130,14 +127,10 @@ export function LoginForm() {
 
       <div className="text-center text-sm text-muted-foreground">
         Nie masz konta?{" "}
-        <a
-          href="/register"
-          className="text-primary hover:underline underline-offset-4 font-medium"
-        >
+        <a href="/register" className="text-primary hover:underline underline-offset-4 font-medium">
           Zarejestruj się
         </a>
       </div>
     </form>
   );
 }
-

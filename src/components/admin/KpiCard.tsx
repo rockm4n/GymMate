@@ -21,4 +21,3 @@ export function KpiCard({ title, value, description, icon }: KpiCardProps) {
     </Card>
   );
 }
-

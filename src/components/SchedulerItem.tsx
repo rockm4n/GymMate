@@ -100,4 +100,3 @@ export function SchedulerItem({ classItem, onClick }: SchedulerItemProps) {
     </button>
   );
 }
-

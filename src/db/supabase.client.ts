@@ -37,23 +37,18 @@ function parseCookieHeader(cookieHeader: string): { name: string; value: string 
 /**
  * Creates a Supabase server client for SSR (Server-Side Rendering) in Astro.
  * This client reads and writes session cookies using Astro's cookie management.
- * 
+ *
  * @param context - Object containing Astro headers and cookies
  * @returns Supabase server client instance
  */
-export const createSupabaseServerInstance = (context: {
-  headers: Headers;
-  cookies: AstroCookies;
-}) => {
+export const createSupabaseServerInstance = (context: { headers: Headers; cookies: AstroCookies }) => {
   const supabase = createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {
         return parseCookieHeader(context.headers.get("Cookie") ?? "");
       },
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value, options }) =>
-          context.cookies.set(name, value, options),
-        );
+        cookiesToSet.forEach(({ name, value, options }) => context.cookies.set(name, value, options));
       },
     },
   });

@@ -88,11 +88,7 @@ export async function createBooking(
  * @param bookingId - ID of the booking to delete
  * @throws BookingError with appropriate error code
  */
-export async function deleteBooking(
-  supabase: SupabaseClient,
-  userId: string,
-  bookingId: string
-): Promise<void> {
+export async function deleteBooking(supabase: SupabaseClient, userId: string, bookingId: string): Promise<void> {
   // First, fetch the booking to verify ownership and check cancellation policy
   const { data: booking, error: fetchError } = await supabase
     .from("bookings")

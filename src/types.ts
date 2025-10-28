@@ -79,15 +79,15 @@ export interface AdminDashboardDto {
  * for easier rendering and logic in components.
  */
 export interface BookingViewModel {
-  id: string;                      // ID rezerwacji
-  className: string;               // Nazwa zajęć
-  instructorName: string | null;   // Imię i nazwisko instruktora
-  startTime: Date;                 // Czas rozpoczęcia jako obiekt Date
-  endTime: Date;                   // Czas zakończenia jako obiekt Date
-  formattedDate: string;           // Sformatowana data, np. "20 października 2025"
-  formattedTime: string;           // Sformatowany czas, np. "09:00 - 10:00"
-  isCancellable: boolean;          // Flaga, czy rezerwację można anulować
-  isHistorical: boolean;           // Flaga, czy rezerwacja jest historyczna
+  id: string; // ID rezerwacji
+  className: string; // Nazwa zajęć
+  instructorName: string | null; // Imię i nazwisko instruktora
+  startTime: Date; // Czas rozpoczęcia jako obiekt Date
+  endTime: Date; // Czas zakończenia jako obiekt Date
+  formattedDate: string; // Sformatowana data, np. "20 października 2025"
+  formattedTime: string; // Sformatowany czas, np. "09:00 - 10:00"
+  isCancellable: boolean; // Flaga, czy rezerwację można anulować
+  isHistorical: boolean; // Flaga, czy rezerwacja jest historyczna
 }
 
 // #endregion

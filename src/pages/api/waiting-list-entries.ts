@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro";
 
 import { createWaitingListEntrySchema } from "../../lib/schemas/waiting-list.schema";
-import {
-  createWaitingListEntry,
-  WaitingListError,
-} from "../../lib/services/waiting-list.service";
+import { createWaitingListEntry, WaitingListError } from "../../lib/services/waiting-list.service";
 
 export const prerender = false;
 
@@ -71,11 +68,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Step 3: Create the waiting list entry
-    const waitingListEntryDto = await createWaitingListEntry(
-      locals.supabase,
-      locals.user.id,
-      validationResult.data
-    );
+    const waitingListEntryDto = await createWaitingListEntry(locals.supabase, locals.user.id, validationResult.data);
 
     // Step 4: Return success response
     return new Response(JSON.stringify(waitingListEntryDto), {
@@ -141,4 +134,3 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 };
-

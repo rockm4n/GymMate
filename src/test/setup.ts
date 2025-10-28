@@ -1,6 +1,6 @@
-import '@testing-library/jest-dom/vitest';
-import { cleanup } from '@testing-library/react';
-import { afterEach, vi } from 'vitest';
+import "@testing-library/jest-dom/vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach, vi } from "vitest";
 
 // Cleanup after each test
 afterEach(() => {
@@ -8,7 +8,7 @@ afterEach(() => {
 });
 
 // Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
     matches: false,
@@ -24,20 +24,29 @@ Object.defineProperty(window, 'matchMedia', {
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
-  constructor() {}
-  disconnect() {}
-  observe() {}
+  disconnect() {
+    // Mock implementation
+  }
+  observe() {
+    // Mock implementation
+  }
   takeRecords() {
     return [];
   }
-  unobserve() {}
-} as any;
+  unobserve() {
+    // Mock implementation
+  }
+} as unknown as typeof IntersectionObserver;
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
-  constructor() {}
-  disconnect() {}
-  observe() {}
-  unobserve() {}
-} as any;
-
+  disconnect() {
+    // Mock implementation
+  }
+  observe() {
+    // Mock implementation
+  }
+  unobserve() {
+    // Mock implementation
+  }
+} as unknown as typeof ResizeObserver;

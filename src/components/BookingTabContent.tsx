@@ -55,22 +55,16 @@ export function BookingTabContent({
             />
           </svg>
         </div>
-        <p className="text-destructive text-lg font-medium mb-2">
-          Wystąpił błąd
-        </p>
+        <p className="text-destructive text-lg font-medium mb-2">Wystąpił błąd</p>
         <p className="text-muted-foreground">{error.message}</p>
       </div>
     );
   }
 
   if (bookings.length === 0) {
-    const message =
-      status === "UPCOMING"
-        ? "Brak nadchodzących rezerwacji"
-        : "Brak przeszłych rezerwacji";
+    const message = status === "UPCOMING" ? "Brak nadchodzących rezerwacji" : "Brak przeszłych rezerwacji";
     return <EmptyState message={message} />;
   }
 
   return <BookingList bookings={bookings} onCancelClick={onCancelBooking} />;
 }
-

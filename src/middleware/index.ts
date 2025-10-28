@@ -2,23 +2,6 @@ import { defineMiddleware } from "astro:middleware";
 
 import { createSupabaseServerInstance } from "../db/supabase.client.ts";
 
-// Public paths - pages that don't require authentication
-const PUBLIC_PATHS = [
-  "/", // Landing page
-  "/login",
-  "/register",
-  "/forgot-password",
-  "/update-password",
-];
-
-// Public API endpoints - don't require JWT authentication
-const PUBLIC_API_PATHS = [
-  "/api/auth/login",
-  "/api/auth/register",
-  "/api/auth/logout",
-  "/api/auth/forgot-password",
-];
-
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
 
@@ -69,8 +52,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // AUTHORIZATION CHECKS FOR ADMIN ROUTES
-  const isAdminRoute =
-    url.pathname.startsWith("/api/admin/") || url.pathname.startsWith("/admin/");
+  const isAdminRoute = url.pathname.startsWith("/api/admin/") || url.pathname.startsWith("/admin/");
 
   if (isAdminRoute) {
     // Admin routes require authentication
@@ -85,7 +67,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
           {
             status: 401,
             headers: { "Content-Type": "application/json" },
-          },
+          }
         );
       }
       // For page routes, redirect to login
@@ -104,7 +86,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
           {
             status: 403,
             headers: { "Content-Type": "application/json" },
-          },
+          }
         );
       }
       // For page routes, redirect to home

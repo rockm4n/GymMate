@@ -34,7 +34,7 @@ export function RegisterForm() {
 
     // Validate form data
     const result = registerSchema.safeParse(formData);
-    
+
     if (!result.success) {
       const fieldErrors: Partial<Record<keyof RegisterInput, string>> = {};
       result.error.errors.forEach((error) => {
@@ -70,8 +70,8 @@ export function RegisterForm() {
       // Per PRD US-001: user is automatically logged in after registration
       // Using window.location.href for full page reload to ensure fresh SSR data
       window.location.href = "/app/schedule";
-    } catch (error) {
-      console.error("Registration error:", error);
+    } catch {
+      // Registration error occurred
       setGeneralError("Wystąpił błąd połączenia. Spróbuj ponownie.");
       setIsLoading(false);
     }
@@ -139,14 +139,10 @@ export function RegisterForm() {
 
       <div className="text-center text-sm text-muted-foreground">
         Masz już konto?{" "}
-        <a
-          href="/login"
-          className="text-primary hover:underline underline-offset-4 font-medium"
-        >
+        <a href="/login" className="text-primary hover:underline underline-offset-4 font-medium">
           Zaloguj się
         </a>
       </div>
     </form>
   );
 }
-

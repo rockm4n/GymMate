@@ -17,4 +17,3 @@ export const createWaitingListEntrySchema = z.object({
  * Type inferred from the create waiting list entry schema.
  */
 export type CreateWaitingListEntryInput = z.infer<typeof createWaitingListEntrySchema>;
-

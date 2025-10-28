@@ -52,11 +52,8 @@ export const GET: APIRoute = async ({ locals }) => {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  } catch (error) {
-    // Log error for debugging
-    console.error("Error fetching user profile:", error);
-
-    // Return generic error response
+  } catch {
+    // Error fetching user profile
     return new Response(
       JSON.stringify({
         error: "Internal Server Error",
@@ -136,11 +133,8 @@ export const PATCH: APIRoute = async ({ locals, request }) => {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  } catch (error) {
-    // Log error for debugging
-    console.error("Error updating user profile:", error);
-
-    // Return generic error response
+  } catch {
+    // Error updating user profile
     return new Response(
       JSON.stringify({
         error: "Internal Server Error",

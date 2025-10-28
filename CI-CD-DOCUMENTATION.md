@@ -7,12 +7,14 @@ Pipeline CI/CD `master.yml` został zaprojektowany dla projektu GymMate wykorzys
 ## Struktura Pipeline'u
 
 ### 1. Lint & Format Check
+
 - **Cel**: Sprawdzenie jakości kodu i formatowania
 - **Narzędzia**: ESLint, Prettier
 - **Czas wykonania**: ~2-3 minuty
 - **Warunki sukcesu**: Brak błędów lintingu i formatowania
 
 ### 2. Unit Tests & Coverage
+
 - **Cel**: Wykonanie testów jednostkowych z pomiarem pokrycia kodu
 - **Narzędzia**: Vitest, React Testing Library
 - **Threshold**: 70% pokrycia kodu
@@ -20,6 +22,7 @@ Pipeline CI/CD `master.yml` został zaprojektowany dla projektu GymMate wykorzys
 - **Raportowanie**: Codecov (opcjonalne)
 
 ### 3. E2E Tests
+
 - **Cel**: Testy end-to-end aplikacji
 - **Narzędzia**: Playwright
 - **Przeglądarki**: Chromium (domyślnie)
@@ -27,17 +30,20 @@ Pipeline CI/CD `master.yml` został zaprojektowany dla projektu GymMate wykorzys
 - **Artefakty**: Screenshots, video przy błędach
 
 ### 4. Production Build
+
 - **Cel**: Budowa aplikacji w trybie produkcyjnym
 - **Narzędzia**: Astro build
 - **Zależności**: Wymaga sukcesu wszystkich poprzednich jobów
 - **Czas wykonania**: ~3-5 minut
 
 ### 5. Test Production Build
+
 - **Cel**: Weryfikacja działania buildu produkcyjnego
 - **Narzędzia**: Astro preview, curl
 - **Czas wykonania**: ~2-3 minuty
 
 ### 6. Security Audit
+
 - **Cel**: Sprawdzenie bezpieczeństwa zależności
 - **Narzędzia**: npm audit, audit-ci
 - **Poziom**: Moderate i wyżej
@@ -70,18 +76,23 @@ GITHUB_TOKEN=your_github_token
 ## Uruchamianie
 
 ### Automatyczne
+
 Pipeline uruchamia się automatycznie przy:
+
 - Push do brancha `master`
 - Merge request do `master`
 
 ### Ręczne
+
 Pipeline można uruchomić ręcznie przez:
+
 - GitHub Actions UI → Workflows → Master CI/CD Pipeline → Run workflow
 - Lub przez API GitHub Actions
 
 ## Monitoring i Debugging
 
 ### Logi
+
 - Wszystkie logi dostępne w GitHub Actions
 - Artefakty (build, raporty testów) przechowywane przez 7-30 dni
 
@@ -102,34 +113,42 @@ Pipeline można uruchomić ręcznie przez:
 ## Rozszerzenia
 
 ### Dodanie nowych przeglądarek do E2E
+
 Edytuj `playwright.config.ts`:
+
 ```typescript
 projects: [
-  { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-  { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-  { name: 'webkit', use: { ...devices['Desktop Safari'] } },
-]
+  { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+  { name: "firefox", use: { ...devices["Desktop Firefox"] } },
+  { name: "webkit", use: { ...devices["Desktop Safari"] } },
+];
 ```
 
 ### Dodanie deploymentu
+
 Można rozszerzyć pipeline o:
+
 - Deploy do DigitalOcean
 - Deploy do Vercel/Netlify
 - Docker build i push
 
 ### Dodanie cache'owania
+
 Pipeline już używa cache'owania npm, można dodać:
+
 - Cache dla Playwright browsers
 - Cache dla build artifacts
 
 ## Wydajność
 
 ### Optymalizacje
+
 - Równoległe wykonywanie jobów gdzie to możliwe
 - Cache'owanie zależności npm
 - Minimalizacja artefaktów
 
 ### Czas wykonania
+
 - Całkowity czas: ~25-35 minut
 - Najdłuższy job: E2E Tests (~10-15 min)
 - Najszybszy job: Lint (~2-3 min)

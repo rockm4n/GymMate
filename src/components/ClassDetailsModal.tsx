@@ -45,13 +45,7 @@ function formatTime(isoString: string): string {
   return date.toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit" });
 }
 
-export function ClassDetailsModal({
-  classItem,
-  onClose,
-  onBook,
-  onCancel,
-  onJoinWaitingList,
-}: ClassDetailsModalProps) {
+export function ClassDetailsModal({ classItem, onClose, onBook, onCancel, onJoinWaitingList }: ClassDetailsModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
 
@@ -105,9 +99,7 @@ export function ClassDetailsModal({
       await onJoinWaitingList(classItem.id);
       onClose();
     } catch (error) {
-      setActionError(
-        error instanceof Error ? error.message : "Nie udało się dołączyć do listy oczekujących"
-      );
+      setActionError(error instanceof Error ? error.message : "Nie udało się dołączyć do listy oczekujących");
     } finally {
       setIsLoading(false);
     }
@@ -166,9 +158,7 @@ export function ClassDetailsModal({
 
           {classItem.userStatus === "WAITING_LIST" && (
             <div className="rounded-lg bg-amber-50 border border-amber-300 p-3 text-sm dark:bg-amber-950 dark:border-amber-800">
-              <p className="font-medium text-amber-700 dark:text-amber-400">
-                Jesteś na liście oczekujących
-              </p>
+              <p className="font-medium text-amber-700 dark:text-amber-400">Jesteś na liście oczekujących</p>
             </div>
           )}
 
@@ -198,12 +188,7 @@ export function ClassDetailsModal({
         <DialogFooter className="flex-col sm:flex-row gap-2">
           {/* Cancel Booking Button */}
           {classItem.isCancellable && (
-            <Button
-              variant="destructive"
-              onClick={handleCancel}
-              disabled={isLoading}
-              className="w-full sm:w-auto"
-            >
+            <Button variant="destructive" onClick={handleCancel} disabled={isLoading} className="w-full sm:w-auto">
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -259,4 +244,3 @@ export function ClassDetailsModal({
     </Dialog>
   );
 }
-

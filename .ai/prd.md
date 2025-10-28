@@ -1,18 +1,24 @@
 # Dokument wymagań produktu (PRD) - GymMate
+
 ## 1. Przegląd produktu
+
 GymMate to aplikacja internetowa w wersji MVP (Minimum Viable Product), której celem jest usprawnienie zarządzania harmonogramem zajęć i rezerwacjami w klubach fitness. Aplikacja ma na celu rozwiązanie problemu manualnego zarządzania rezerwacjami, które prowadzi do błędów i frustracji zarówno wśród członków klubu, jak i personelu.
 
 Produkt skierowany jest do dwóch głównych grup użytkowników:
+
 - Członkowie klubu fitness, którzy potrzebują prostego i dostępnego 24/7 narzędzia do przeglądania grafiku, rezerwowania miejsc na zajęciach i zarządzania swoimi rezerwacjami.
 - Personel klubu fitness (administratorzy, recepcjoniści), którzy potrzebują efektywnego narzędzia do zarządzania harmonogramem zajęć i monitorowania kluczowych wskaźników operacyjnych.
 
 Główną wartością aplikacji jest automatyzacja i cyfryzacja procesu rezerwacji, co przekłada się na oszczędność czasu, redukcję błędów administracyjnych, zwiększenie frekwencji na zajęciach oraz poprawę ogólnego zadowolenia członków klubu.
 
 ## 2. Problem użytkownika
+
 Manualne zarządzanie harmonogramem zajęć w klubach fitness prowadzi do podwójnych rezerwacji, pomyłek w zapisach oraz frustracji członków, którzy nie mogą łatwo sprawdzić dostępności zajęć i dokonać rezerwacji poza godzinami pracy recepcji. To skutkuje niską frekwencją na zajęciach, wysokimi wskaźnikami rezygnacji z członkostwa oraz nadmiernym obciążeniem pracowników administracyjnych. System GymMate ma na celu bezpośrednie rozwiązanie tych problemów poprzez dostarczenie zautomatyzowanej, niezawodnej i łatwo dostępnej platformy do zarządzania rezerwacjami.
 
 ## 3. Wymagania funkcjonalne
+
 ### 3.1. Funkcjonalności dla Członka Klubu (Użytkownik)
+
 - Autentykacja: Możliwość rejestracji nowego konta (e-mail, hasło) i logowania.
 - Profil Użytkownika: Dostęp do panelu z podglądem nadchodzących i historycznych rezerwacji.
 - Kalendarz Zajęć: Przejrzysty, tygodniowy widok harmonogramu zajęć w formie osi czasu (timeline/scheduler).
@@ -25,12 +31,15 @@ Manualne zarządzanie harmonogramem zajęć w klubach fitness prowadzi do podwó
 - Onboarding Użytkownika: Interaktywny przewodnik (np. product tour) uruchamiany podczas pierwszej wizyty w aplikacji, wyjaśniający kluczowe funkcjonalności.
 
 ### 3.2. Funkcjonalności dla Personelu Klubu (Panel Administracyjny)
+
 - Dashboard: Główny panel administracyjny wyświetlający 3-4 kluczowe wskaźniki efektywności (KPIs), np. obłożenie na dzisiejszych zajęciach, liczba osób na listach oczekujących, popularność poszczególnych zajęć.
 - Zarządzanie Harmonogramem: Pełna kontrola nad kalendarzem zajęć, w tym dodawanie, edytowanie i usuwanie zajęć.
 - Priorytetowe Akcje Administracyjne: Interfejs zoptymalizowany pod kątem szybkiej zmiany instruktora prowadzącego zajęcia oraz odwoływania zajęć z automatycznym powiadomieniem zapisanych uczestników.
 
 ## 4. Granice produktu
+
 ### 4.1. W zakresie MVP
+
 - Tygodniowy kalendarz zajęć w stylu scheduler/timeline.
 - System rezerwacji online dostępny 24/7.
 - Rozróżnienie na zajęcia ogólnodostępne i wymagające rezerwacji z limitem miejsc.
@@ -42,6 +51,7 @@ Manualne zarządzanie harmonogramem zajęć w klubach fitness prowadzi do podwó
 - Obsługa jednego, uniwersalnego typu członkostwa/karnetu.
 
 ### 4.2. Poza zakresem MVP
+
 - Zaawansowany system płatności online.
 - Dedykowana aplikacja mobilna (wersja webowa będzie responsywna).
 - Integracje z urządzeniami wearables i zewnętrznymi aplikacjami fitness.
@@ -54,6 +64,7 @@ Manualne zarządzanie harmonogramem zajęć w klubach fitness prowadzi do podwó
 - Personalizacja kanałów i czasu wysyłki powiadomień.
 
 ## 5. Historyjki użytkowników
+
 ### 5.1. Uwierzytelnianie i Zarządzanie Kontem
 
 - ID: US-001
@@ -163,6 +174,7 @@ Manualne zarządzanie harmonogramem zajęć w klubach fitness prowadzi do podwó
   4. System automatycznie wysyła powiadomienia e-mail o odwołaniu zajęć do wszystkich zapisanych uczestników oraz osób z listy oczekujących.
 
 ## 6. Metryki sukcesu
+
 Kryteria sukcesu dla MVP będą mierzone za pomocą następujących wskaźników:
 
 - Adopcja Systemu: 75% aktywnych członków klubu regularnie korzysta z systemu rezerwacji w ciągu 3 miesięcy od wdrożenia.

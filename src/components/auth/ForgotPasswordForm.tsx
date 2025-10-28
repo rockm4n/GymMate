@@ -34,7 +34,7 @@ export function ForgotPasswordForm() {
 
     // Validate form data
     const result = forgotPasswordSchema.safeParse(formData);
-    
+
     if (!result.success) {
       const fieldErrors: Partial<Record<keyof ForgotPasswordInput, string>> = {};
       result.error.errors.forEach((error) => {
@@ -49,8 +49,8 @@ export function ForgotPasswordForm() {
 
     // TODO: Implement Supabase password reset
     // This will be implemented in the next phase
-    console.log("Password reset request:", result.data);
-    
+    // Password reset request: result.data
+
     // Simulate success
     setIsSuccess(true);
     setIsLoading(false);
@@ -62,16 +62,12 @@ export function ForgotPasswordForm() {
         <div className="p-4 rounded-md bg-primary/10 border border-primary/20 text-primary">
           <p className="font-medium mb-2">Link został wysłany!</p>
           <p className="text-sm">
-            Sprawdź swoją skrzynkę e-mail. Jeśli konto z podanym adresem istnieje,
-            otrzymasz link do zresetowania hasła.
+            Sprawdź swoją skrzynkę e-mail. Jeśli konto z podanym adresem istnieje, otrzymasz link do zresetowania hasła.
           </p>
         </div>
-        
+
         <div className="text-center">
-          <a
-            href="/login"
-            className="text-sm text-primary hover:underline underline-offset-4"
-          >
+          <a href="/login" className="text-sm text-primary hover:underline underline-offset-4">
             Powrót do logowania
           </a>
         </div>
@@ -112,14 +108,10 @@ export function ForgotPasswordForm() {
 
       <div className="text-center text-sm text-muted-foreground">
         Pamiętasz hasło?{" "}
-        <a
-          href="/login"
-          className="text-primary hover:underline underline-offset-4 font-medium"
-        >
+        <a href="/login" className="text-primary hover:underline underline-offset-4 font-medium">
           Zaloguj się
         </a>
       </div>
     </form>
   );
 }
-

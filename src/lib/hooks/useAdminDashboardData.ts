@@ -69,4 +69,3 @@ export function useAdminDashboardData(): UseAdminDashboardDataReturn {
 
   return { data, isLoading, error };
 }
-

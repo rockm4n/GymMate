@@ -24,12 +24,7 @@ const userRole = profile?.role || "member";
 
 // For debugging in development (optional - remove in production)
 if (import.meta.env.DEV && user) {
-  console.log("[Layout] User authenticated:", {
-    id: user.id,
-    email: user.email,
-    role: userRole,
-    hasProfile: !!profile,
-  });
+  // User authenticated: { id: user.id, email: user.email, role: userRole, hasProfile: !!profile }
 }
 ---
 
@@ -43,22 +38,24 @@ if (import.meta.env.DEV && user) {
     <title>{title}</title>
   </head>
   <body class="dark">
-    {showNav && (
-      <header class="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div class="container mx-auto px-4 h-16 flex items-center justify-between">
-          <a href="/" class="flex items-center gap-2 font-bold text-xl">
-            <span class="text-primary">GymMate</span>
-          </a>
-          <UserNav 
-            client:load 
-            isAuthenticated={isAuthenticated} 
-            userEmail={userEmail}
-            userName={userName}
-            userRole={userRole}
-          />
-        </div>
-      </header>
-    )}
+    {
+      showNav && (
+        <header class="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+          <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 font-bold text-xl">
+              <span class="text-primary">GymMate</span>
+            </a>
+            <UserNav
+              client:load
+              isAuthenticated={isAuthenticated}
+              userEmail={userEmail}
+              userName={userName}
+              userRole={userRole}
+            />
+          </div>
+        </header>
+      )
+    }
     <slot />
     <Toaster client:load />
   </body>

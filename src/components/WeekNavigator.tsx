@@ -41,4 +41,3 @@ export function WeekNavigator({ currentWeek, onPreviousWeek, onNextWeek }: WeekN
     </div>
   );
 }
-

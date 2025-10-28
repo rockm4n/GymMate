@@ -1,9 +1,11 @@
 # API Endpoint Implementation Plan: POST /api/bookings
 
 ## 1. Przegląd punktu końcowego
+
 Ten punkt końcowy umożliwia uwierzytelnionym użytkownikom tworzenie nowej rezerwacji na określone zajęcia w harmonogramie. Po pomyślnym utworzeniu rezerwacji, zwraca pełne dane rezerwacji.
 
 ## 2. Szczegóły żądania
+
 - **Metoda HTTP**: `POST`
 - **Struktura URL**: `/api/bookings`
 - **Nagłówki**:
@@ -16,6 +18,7 @@ Ten punkt końcowy umożliwia uwierzytelnionym użytkownikom tworzenie nowej rez
   ```
 
 ## 3. Wykorzystywane typy
+
 - **Command Model (wejście)**: `CreateBookingCommand` z `src/types.ts`.
   ```typescript
   export type CreateBookingCommand = Pick<TablesInsert<"bookings">, "scheduled_class_id">;
@@ -31,6 +34,7 @@ Ten punkt końcowy umożliwia uwierzytelnionym użytkownikom tworzenie nowej rez
   ```
 
 ## 4. Szczegóły odpowiedzi
+
 - **Odpowiedź sukcesu**:
   - **Kod statusu**: `201 Created`
   - **Ciało odpowiedzi**: Obiekt `BookingDto` nowo utworzonej rezerwacji.
@@ -41,6 +45,7 @@ Ten punkt końcowy umożliwia uwierzytelnionym użytkownikom tworzenie nowej rez
   - `500 Internal Server Error`: Wewnętrzny błąd serwera.
 
 ## 5. Przepływ danych
+
 1.  Klient wysyła żądanie `POST /api/bookings` z `scheduled_class_id` w ciele.
 2.  Middleware Astro (`src/middleware/index.ts`) przechwytuje żądanie, weryfikuje token JWT użytkownika i dołącza sesję do `context.locals`.
 3.  Handler API `POST` w `src/pages/api/bookings.ts` otrzymuje żądanie.
@@ -56,16 +61,19 @@ Ten punkt końcowy umożliwia uwierzytelnionym użytkownikom tworzenie nowej rez
 9.  Handler wysyła odpowiedź `201 Created` z `BookingDto` w ciele.
 
 ## 6. Względy bezpieczeństwa
+
 - **Uwierzytelnianie**: Wszystkie żądania muszą być uwierzytelnione za pomocą ważnego tokenu JWT Supabase. Dostęp do punktu końcowego bez uwierzytelnienia zostanie zablokowany.
 - **Autoryzacja**: Identyfikator użytkownika (`user_id`) używany do tworzenia rezerwacji jest pobierany wyłącznie z sesji serwerowej (`context.locals.user.id`), co zapobiega podszywaniu się pod innych użytkowników.
 - **Walidacja danych**: Użycie Zod do walidacji `scheduled_class_id` chroni przed atakami typu SQL Injection oraz błędami wynikającymi z niepoprawnego formatu danych.
 
 ## 7. Rozważania dotyczące wydajności
+
 - **Atomowość operacji**: Sprawdzenie pojemności zajęć i utworzenie rezerwacji powinno być operacją atomową, aby uniknąć race conditions. Zaleca się stworzenie funkcji `RPC` w PostgreSQL (Supabase), która zamknie tę logikę w jednej transakcji.
 - **Indeksowanie**: Tabela `bookings` powinna mieć indeksy na kolumnach `user_id` i `scheduled_class_id`, aby przyspieszyć wyszukiwanie. Constraint `UNIQUE` automatycznie tworzy taki indeks.
 - **Zapytania**: Zapytanie budujące `BookingDto` będzie wymagało kilku złączeń (JOIN). Należy zadbać o jego optymalizację, aby zminimalizować czas odpowiedzi.
 
 ## 8. Etapy wdrożenia
+
 1.  **Schema Walidacji**: Utworzyć plik `src/lib/schemas/booking.schema.ts` i zdefiniować w nim `createBookingSchema` używając Zod do walidacji `scheduled_class_id` (musi być stringiem w formacie `uuid`).
 2.  **Serwis**: Stworzyć plik `src/lib/services/booking.service.ts`.
 3.  **Logika Serwisu**: Zaimplementować funkcję `createBooking` w `booking.service.ts`. Funkcja ta powinna zawierać całą logikę biznesową opisaną w sekcji "Przepływ danych". Rozważyć implementację części logiki jako funkcji RPC w Supabase w celu zapewnienia atomowości.

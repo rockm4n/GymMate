@@ -16,6 +16,7 @@
 ### Profiles
 
 #### GET /api/profiles/me
+
 - **Description**: Get the profile of the currently authenticated user.
 - **Request Payload**: None.
 - **Response Payload**:
@@ -31,6 +32,7 @@
 - **Error Codes**: `401 Unauthorized`, `404 Not Found`
 
 #### PATCH /api/profiles/me
+
 - **Description**: Update the profile of the currently authenticated user.
 - **Request Payload**:
   ```json
@@ -47,6 +49,7 @@
 ### Scheduled Classes
 
 #### GET /api/scheduled-classes
+
 - **Description**: Get a list of scheduled classes, filterable by a time range.
 - **Query Parameters**:
   - `start_time` (string, ISO 8601 format, e.g., `2025-10-20T00:00:00Z`): The beginning of the time range.
@@ -76,6 +79,7 @@
 - **Error Codes**: `400 Bad Request`
 
 #### GET /api/scheduled-classes/{id}/suggestions
+
 - **Description**: Get alternative class suggestions for a specific class that is full.
 - **Request Payload**: None.
 - **Response Payload**: An array of scheduled class objects, similar to `GET /api/scheduled-classes`.
@@ -87,6 +91,7 @@
 ### Bookings
 
 #### GET /api/bookings/my
+
 - **Description**: Get all bookings for the currently authenticated user.
 - **Query Parameters**:
   - `status` (string, enum: `UPCOMING`, `HISTORICAL`): Filter bookings by their status relative to the current time.
@@ -110,6 +115,7 @@
 - **Error Codes**: `401 Unauthorized`
 
 #### POST /api/bookings
+
 - **Description**: Create a new booking for the authenticated user.
 - **Request Payload**:
   ```json
@@ -122,6 +128,7 @@
 - **Error Codes**: `400 Bad Request` (e.g., class is full, already booked), `401 Unauthorized`, `404 Not Found` (class does not exist)
 
 #### DELETE /api/bookings/{id}
+
 - **Description**: Cancel a booking. The user must be the owner of the booking.
 - **Request Payload**: None.
 - **Response Payload**: None.
@@ -133,6 +140,7 @@
 ### Waiting List
 
 #### POST /api/waiting-list-entries
+
 - **Description**: Add the authenticated user to the waiting list for a class.
 - **Request Payload**:
   ```json
@@ -145,6 +153,7 @@
 - **Error Codes**: `400 Bad Request` (e.g., already on list, class not full), `401 Unauthorized`, `404 Not Found`
 
 #### DELETE /api/waiting-list-entries/{id}
+
 - **Description**: Remove the authenticated user from a waiting list.
 - **Request Payload**: None.
 - **Response Payload**: None.
@@ -156,6 +165,7 @@
 ### Admin Endpoints (requires 'STAFF' role)
 
 #### GET /api/admin/dashboard
+
 - **Description**: Get key performance indicators for the admin dashboard.
 - **Request Payload**: None.
 - **Response Payload**:
@@ -173,6 +183,7 @@
 - **Error Codes**: `401 Unauthorized`, `403 Forbidden`
 
 #### POST /api/admin/scheduled-classes
+
 - **Description**: Create a new scheduled class.
 - **Request Payload**:
   ```json
@@ -189,6 +200,7 @@
 - **Error Codes**: `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`
 
 #### PATCH /api/admin/scheduled-classes/{id}
+
 - **Description**: Update a scheduled class (e.g., change instructor or cancel).
 - **Request Payload**:
   ```json

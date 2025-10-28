@@ -21,12 +21,10 @@ export function BookingListItem({ booking, onCancelClick }: BookingListItemProps
         <div className="flex-1 space-y-1">
           <h3 className="font-semibold text-lg">{booking.className}</h3>
           {booking.instructorName && (
-            <p className="text-sm text-muted-foreground">
-              Instruktor: {booking.instructorName}
-            </p>
+            <p className="text-sm text-muted-foreground">Instruktor: {booking.instructorName}</p>
           )}
         </div>
-        
+
         {!booking.isHistorical && (
           <Button
             variant="destructive"
@@ -43,7 +41,7 @@ export function BookingListItem({ booking, onCancelClick }: BookingListItemProps
           </Button>
         )}
       </div>
-      
+
       <div className="flex items-center gap-4 text-sm text-muted-foreground">
         <div className="flex items-center gap-1">
           <svg
@@ -62,7 +60,7 @@ export function BookingListItem({ booking, onCancelClick }: BookingListItemProps
           </svg>
           <span>{booking.formattedDate}</span>
         </div>
-        
+
         <div className="flex items-center gap-1">
           <svg
             className="w-4 h-4"
@@ -81,13 +79,10 @@ export function BookingListItem({ booking, onCancelClick }: BookingListItemProps
           <span>{booking.formattedTime}</span>
         </div>
       </div>
-      
+
       {!booking.isCancellable && !booking.isHistorical && (
-        <p className="text-xs text-muted-foreground italic">
-          Anulowanie możliwe najpóźniej 8 godzin przed zajęciami
-        </p>
+        <p className="text-xs text-muted-foreground italic">Anulowanie możliwe najpóźniej 8 godzin przed zajęciami</p>
       )}
     </div>
   );
 }
-

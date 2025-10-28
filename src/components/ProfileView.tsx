@@ -33,7 +33,7 @@ export function ProfileView() {
     try {
       await cancelBooking();
       toast.success("Rezerwacja została anulowana");
-    } catch (err) {
+    } catch {
       toast.error("Nie udało się anulować rezerwacji. Spróbuj ponownie.");
     }
   };
@@ -42,9 +42,7 @@ export function ProfileView() {
     <div className="container mx-auto py-8 px-4 max-w-4xl">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Mój Profil</h1>
-        <p className="text-muted-foreground">
-          Zarządzaj swoimi rezerwacjami na zajęcia
-        </p>
+        <p className="text-muted-foreground">Zarządzaj swoimi rezerwacjami na zajęcia</p>
       </div>
 
       <Tabs defaultValue="upcoming" className="w-full">
@@ -84,4 +82,3 @@ export function ProfileView() {
     </div>
   );
 }
-

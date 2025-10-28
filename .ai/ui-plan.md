@@ -5,6 +5,7 @@
 Architektura interfejsu użytkownika (UI) aplikacji GymMate została zaprojektowana w celu obsługi dwóch głównych ról użytkowników: **Członka Klubu (MEMBER)** i **Personelu (STAFF)**. Aplikacja jest zorganizowana wokół centralnego widoku kalendarza, który stanowi rdzeń interakcji dla obu grup. Architektura kładzie nacisk na responsywność, dostępność i intuicyjność, wykorzystując dynamiczne komponenty i nawigację w celu dostosowania interfejsu do roli i kontekstu użytkownika.
 
 Kluczowe założenia architektury:
+
 - **Podejście komponentowe:** UI jest zbudowane z reużywalnych komponentów (np. modal, karta KPI, element listy rezerwacji), co zapewnia spójność wizualną i ułatwia rozwój.
 - **Zarządzanie stanem serwera:** Stan jest zarządzany przez bibliotekę TanStack Query, co gwarantuje efektywne pobieranie danych, buforowanie i automatyczne odświeżanie interfejsu po akcjach użytkownika (mutacjach).
 - **Dynamiczna nawigacja:** Struktura nawigacji dostosowuje się do roli zalogowanego użytkownika, ukrywając lub pokazując odpowiednie linki (np. do panelu administracyjnego).
@@ -55,6 +56,7 @@ Kluczowe założenia architektury:
 ## 3. Mapa podróży użytkownika
 
 **Główny przepływ: Rezerwacja zajęć przez Członka Klubu (MEMBER)**
+
 1.  **Logowanie:** Użytkownik trafia na `/login`, wprowadza dane i zostaje przekierowany do `/app/schedule`.
 2.  **Przeglądanie:** Użytkownik widzi kalendarz na bieżący tydzień. Używa nawigacji tygodniowej do przeglądania harmonogramu.
 3.  **Interakcja:** Klika na interesujące go zajęcia, co otwiera `ClassDetailsModal`.
@@ -66,6 +68,7 @@ Kluczowe założenia architektury:
 6.  **Weryfikacja:** Użytkownik może nawigować do `/app/profile`, aby zobaczyć swoją rezerwację na liście "Nadchodzące".
 
 **Główny przepływ: Odwołanie zajęć przez Personel (STAFF)**
+
 1.  **Logowanie i nawigacja:** Użytkownik `STAFF` loguje się, może przejrzeć `/admin/dashboard`, a następnie przechodzi do `/app/schedule`.
 2.  **Interakcja:** Klika na zajęcia, które chce odwołać. Otwiera się `ClassDetailsModal`.
 3.  **Akcja administracyjna:** W modalu, oprócz standardowych informacji, widzi przyciski administracyjne, w tym "Odwołaj zajęcia". Klika go.

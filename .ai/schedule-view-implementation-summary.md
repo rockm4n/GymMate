@@ -7,12 +7,14 @@ Wszystkie komponenty i funkcjonalności zostały zaimplementowane zgodnie z plan
 ## Zaimplementowane komponenty
 
 ### 1. Typy i View Models
+
 - **`src/lib/view-models.ts`** - Typ `ScheduleViewModel` rozszerzający `ScheduledClassDto` o:
   - Status użytkownika (`userStatus`: BOOKED | WAITING_LIST | AVAILABLE)
   - ID rezerwacji i wpisu na liście oczekujących
   - Flagi logiczne: `isFull`, `hasStarted`, `isBookable`, `isCancellable`, `isWaitlistable`
 
 ### 2. Custom Hook
+
 - **`src/lib/hooks/useSchedule.ts`** - Główny hook zarządzający stanem:
   - Pobieranie danych z API (scheduled classes + user bookings)
   - Transformacja danych do `ScheduleViewModel[]`
@@ -24,18 +26,21 @@ Wszystkie komponenty i funkcjonalności zostały zaimplementowane zgodnie z plan
 ### 3. Komponenty React
 
 #### `src/components/ScheduleView.tsx`
+
 - Główny kontener widoku
 - Integracja z hookiem `useSchedule`
 - Obsługa stanów: loading, error, success
 - Koordynacja komponentów podrzędnych
 
 #### `src/components/WeekNavigator.tsx`
+
 - Wyświetlanie zakresu dat tygodnia
 - Przyciski nawigacji (poprzedni/następny tydzień)
 - Formatowanie dat w języku polskim
 - Ikony z Lucide React (ChevronLeft, ChevronRight)
 
 #### `src/components/Scheduler.tsx`
+
 - Grupowanie zajęć według dni tygodnia
 - Responsywny layout:
   - Desktop: grid 7 kolumn (jeden dzień = jedna kolumna)
@@ -44,6 +49,7 @@ Wszystkie komponenty i funkcjonalności zostały zaimplementowane zgodnie z plan
 - Sortowanie zajęć według czasu rozpoczęcia
 
 #### `src/components/SchedulerItem.tsx`
+
 - Wyświetlanie pojedynczych zajęć
 - Warunkowe stylowanie według `userStatus`:
   - BOOKED: niebieski border i tło
@@ -55,6 +61,7 @@ Wszystkie komponenty i funkcjonalności zostały zaimplementowane zgodnie z plan
 - Accessibility: focus states, aria-labels
 
 #### `src/components/ClassDetailsModal.tsx`
+
 - Modal z pełnymi szczegółami zajęć
 - Komponenty z Shadcn/ui: Dialog, Button, Progress
 - Ikony z Lucide React: Calendar, Clock, User, Users, Loader2
@@ -69,12 +76,14 @@ Wszystkie komponenty i funkcjonalności zostały zaimplementowane zgodnie z plan
 - Responsywny footer z przyciskami
 
 ### 4. Strona Astro
+
 - **`src/pages/app/schedule.astro`** - Strona widoku harmonogramu
   - Routing: `/app/schedule`
   - Integracja z Layout
   - Hydratacja komponentu ScheduleView (`client:load`)
 
 ### 5. Layout i Toast Notifications
+
 - **`src/layouts/Layout.astro`** - Zaktualizowany o Toaster
 - **`src/components/ui/sonner.tsx`** - Komponent Toaster (dostosowany dla Astro)
   - Usunięto zależność od `next-themes`
@@ -83,6 +92,7 @@ Wszystkie komponenty i funkcjonalności zostały zaimplementowane zgodnie z plan
 ## Zaimplementowane API Endpoints
 
 ### 1. GET /api/bookings/my
+
 - **Plik**: `src/pages/api/bookings/my.ts`
 - **Opis**: Pobiera rezerwacje zalogowanego użytkownika
 - **Query params**: `status` (UPCOMING | PAST)
@@ -90,6 +100,7 @@ Wszystkie komponenty i funkcjonalności zostały zaimplementowane zgodnie z plan
 - **Service**: `getUserBookings()` w `booking.service.ts`
 
 ### 2. DELETE /api/bookings/:id
+
 - **Plik**: `src/pages/api/bookings/[id].ts`
 - **Opis**: Anuluje rezerwację użytkownika
 - **Walidacja**:
@@ -103,12 +114,14 @@ Wszystkie komponenty i funkcjonalności zostały zaimplementowane zgodnie z plan
 ### `src/lib/services/booking.service.ts`
 
 #### `deleteBooking(supabase, userId, bookingId)`
+
 - Weryfikacja własności rezerwacji
 - Sprawdzenie polityki anulowania (8 godzin przed zajęciami)
 - Usunięcie rezerwacji z bazy danych
 - Obsługa błędów: NOT_FOUND, UNAUTHORIZED, TOO_LATE_TO_CANCEL, DATABASE_ERROR
 
 #### `getUserBookings(supabase, userId, status?)`
+
 - Pobieranie rezerwacji użytkownika
 - Opcjonalne filtrowanie według statusu (UPCOMING/PAST)
 - Zwraca dane w formacie `BookingDto[]`
@@ -117,6 +130,7 @@ Wszystkie komponenty i funkcjonalności zostały zaimplementowane zgodnie z plan
 ## Komponenty UI z Shadcn/ui
 
 Zainstalowane i wykorzystane komponenty:
+
 - ✅ **Button** - przyciski akcji
 - ✅ **Progress** - wizualizacja obłożenia zajęć
 - ✅ **Dialog** - modal ze szczegółami zajęć
@@ -125,47 +139,55 @@ Zainstalowane i wykorzystane komponenty:
 ## Funkcjonalności
 
 ### ✅ Przeglądanie harmonogramu
+
 - Widok tygodniowy z zajęciami pogrupowanymi według dni
 - Nawigacja między tygodniami (poprzedni/następny)
 - Responsywny layout (grid na desktop, lista na mobile)
 - Wyświetlanie szczegółów: nazwa, instruktor, godziny, obłożenie
 
 ### ✅ Rezerwacja zajęć
+
 - Przycisk "Zarezerwuj" dostępny gdy zajęcia są dostępne
 - Walidacja: zajęcia nie mogą być pełne ani rozpoczęte
 - Toast notification po sukcesie/błędzie
 - Automatyczne odświeżanie widoku
 
 ### ✅ Anulowanie rezerwacji
+
 - Przycisk "Anuluj rezerwację" dla zarezerwowanych zajęć
 - Walidacja: min. 8 godzin przed rozpoczęciem
 - Toast notification po sukcesie/błędzie
 - Automatyczne odświeżanie widoku
 
 ### ✅ Lista oczekujących
+
 - Przycisk "Dołącz do listy oczekujących" gdy zajęcia są pełne
 - Dostępny tylko dla niezarezerwowanych użytkowników
 - Toast notification po sukcesie/błędzie
 - Automatyczne odświeżanie widoku
 
 ### ✅ Statusy wizualne
+
 - **Zapisany** - niebieski border, badge "Zapisany"
 - **Lista oczekujących** - żółty border, badge "Lista oczekujących"
 - **Pełne** - badge "Pełne", przycisk listy oczekujących
 - **Rozpoczęte** - opacity 60%, disabled, badge "Rozpoczęte"
 
 ### ✅ Obsługa błędów
+
 - Komunikaty błędów w modalu
 - Toast notifications dla błędów API
 - Stan błędu w głównym widoku z przyciskiem "Spróbuj ponownie"
 - Graceful handling dla niezalogowanych użytkowników
 
 ### ✅ Stany ładowania
+
 - Spinner podczas pobierania danych
 - Loading state w przyciskach akcji
 - Disabled state podczas wykonywania akcji
 
 ### ✅ Responsywność
+
 - Desktop: grid 7 kolumn (jeden dzień = jedna kolumna)
 - Mobile: lista z nagłówkami dni
 - Responsywne przyciski i modal
@@ -258,4 +280,3 @@ Wszystkie 10 kroków z planu implementacji zostały zrealizowane:
 ## Podsumowanie
 
 Widok harmonogramu zajęć został w pełni zaimplementowany zgodnie z planem. Wszystkie komponenty są responsywne, dostępne (accessibility) i obsługują wszystkie wymagane interakcje użytkownika. Aplikacja jest gotowa do testowania i dalszego rozwoju.
-

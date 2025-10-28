@@ -6,15 +6,15 @@ export const prerender = false;
 
 /**
  * POST /api/auth/logout
- * 
+ *
  * Logs out the current user by clearing their session.
  * Removes session cookies and invalidates the session on the server.
- * 
+ *
  * Success response (200):
  * {
  *   "success": true
  * }
- * 
+ *
  * Error response (400):
  * {
  *   "error": "Error message"
@@ -32,33 +32,23 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      console.error("Logout error:", error);
-      return new Response(
-        JSON.stringify({ error: "Wystąpił błąd podczas wylogowywania" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        },
-      );
+      // Logout error occurred
+      return new Response(JSON.stringify({ error: "Wystąpił błąd podczas wylogowywania" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Session cookies are automatically cleared by createSupabaseServerInstance
-    return new Response(
-      JSON.stringify({ success: true }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  } catch (error) {
-    console.error("Logout error:", error);
-    return new Response(
-      JSON.stringify({ error: "Wewnętrzny błąd serwera" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch {
+    // Logout error occurred
+    return new Response(JSON.stringify({ error: "Wewnętrzny błąd serwera" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };
-

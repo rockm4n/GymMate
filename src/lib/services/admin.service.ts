@@ -18,7 +18,7 @@ export class AdminError extends Error {
  * Service for admin-related operations.
  * Provides methods for retrieving aggregated data and KPIs for the admin dashboard.
  */
-export class AdminService {
+export const AdminService = {
   /**
    * Retrieves dashboard KPIs including occupancy rate, waiting list count,
    * and most popular classes.
@@ -30,7 +30,7 @@ export class AdminService {
    * @returns AdminDashboardDto with aggregated KPI data
    * @throws AdminError with appropriate error code
    */
-  static async getDashboardData(supabase: SupabaseClient): Promise<AdminDashboardDto> {
+  async getDashboardData(supabase: SupabaseClient): Promise<AdminDashboardDto> {
     const { data, error } = await supabase.rpc("get_dashboard_kpis");
 
     if (error) {
@@ -43,6 +43,5 @@ export class AdminService {
 
     // The RPC function returns the data as JSONB, cast it to AdminDashboardDto
     return data as unknown as AdminDashboardDto;
-  }
-}
-
+  },
+};

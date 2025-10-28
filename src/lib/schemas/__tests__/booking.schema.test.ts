@@ -48,18 +48,18 @@ describe("booking.schema", () => {
       it("should reject when scheduled_class_id is not a string", () => {
         const invalidInputs = [123, null, undefined, {}, [], true];
 
-         invalidInputs.forEach((invalidInput) => {
-           const result = createBookingSchema.safeParse({ scheduled_class_id: invalidInput });
-           expect(result.success).toBe(false);
-           // The error message depends on the input type
-           if (typeof invalidInput === "string") {
-             expect(result.error?.issues[0]?.message).toBe("scheduled_class_id must be a valid UUID");
-           } else if (invalidInput === undefined) {
-             expect(result.error?.issues[0]?.message).toBe("scheduled_class_id is required");
-           } else {
-             expect(result.error?.issues[0]?.message).toBe("scheduled_class_id must be a string");
-           }
-         });
+        invalidInputs.forEach((invalidInput) => {
+          const result = createBookingSchema.safeParse({ scheduled_class_id: invalidInput });
+          expect(result.success).toBe(false);
+          // The error message depends on the input type
+          if (typeof invalidInput === "string") {
+            expect(result.error?.issues[0]?.message).toBe("scheduled_class_id must be a valid UUID");
+          } else if (invalidInput === undefined) {
+            expect(result.error?.issues[0]?.message).toBe("scheduled_class_id is required");
+          } else {
+            expect(result.error?.issues[0]?.message).toBe("scheduled_class_id must be a string");
+          }
+        });
       });
     });
 

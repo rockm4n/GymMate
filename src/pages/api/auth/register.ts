@@ -7,22 +7,22 @@ export const prerender = false;
 
 /**
  * POST /api/auth/register
- * 
+ *
  * Registers a new user with email and password.
  * On success, automatically logs in the user and sets session cookies.
- * 
+ *
  * Request body:
  * {
  *   "email": "user@example.com",
  *   "password": "password123",
  *   "confirmPassword": "password123"
  * }
- * 
+ *
  * Success response (200):
  * {
  *   "user": { id, email, ... }
  * }
- * 
+ *
  * Error response (400):
  * {
  *   "error": "Error message"
@@ -44,7 +44,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         {
           status: 400,
           headers: { "Content-Type": "application/json" },
-        },
+        }
       );
     }
 
@@ -79,13 +79,10 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         errorMessage = "Nieprawidłowy format adresu e-mail";
       }
 
-      return new Response(
-        JSON.stringify({ error: errorMessage }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        },
-      );
+      return new Response(JSON.stringify({ error: errorMessage }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Check if user was created successfully
@@ -97,28 +94,21 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         {
           status: 400,
           headers: { "Content-Type": "application/json" },
-        },
+        }
       );
     }
 
     // Session cookies are automatically set by createSupabaseServerInstance
     // User is now logged in (per PRD US-001 requirement)
-    return new Response(
-      JSON.stringify({ user: data.user }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  } catch (error) {
-    console.error("Registration error:", error);
-    return new Response(
-      JSON.stringify({ error: "Wewnętrzny błąd serwera" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return new Response(JSON.stringify({ user: data.user }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch {
+    // Registration error occurred
+    return new Response(JSON.stringify({ error: "Wewnętrzny błąd serwera" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };
-

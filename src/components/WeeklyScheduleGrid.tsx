@@ -70,10 +70,7 @@ function isSameDay(date1: Date, date2: Date): boolean {
 /**
  * Groups classes by day and time slot
  */
-function groupClassesByDayAndTime(
-  classes: ScheduleViewModel[],
-  weekStart: Date
-): Map<string, ScheduleViewModel[]> {
+function groupClassesByDayAndTime(classes: ScheduleViewModel[], weekStart: Date): Map<string, ScheduleViewModel[]> {
   const grouped = new Map<string, ScheduleViewModel[]>();
 
   classes.forEach((classItem) => {
@@ -88,7 +85,10 @@ function groupClassesByDayAndTime(
         if (!grouped.has(key)) {
           grouped.set(key, []);
         }
-        grouped.get(key)!.push(classItem);
+        const keyClasses = grouped.get(key);
+        if (keyClasses) {
+          keyClasses.push(classItem);
+        }
         break;
       }
     }
@@ -124,19 +124,13 @@ function CompactClassItem({ classItem, onClick }: { classItem: ScheduleViewModel
         hasStarted && "opacity-50 cursor-not-allowed"
       )}
       style={{
-        backgroundColor: isBooked 
-          ? classColor 
-          : isFull 
-            ? `${classColor}20` 
-            : `${classColor}15`,
+        backgroundColor: isBooked ? classColor : isFull ? `${classColor}20` : `${classColor}15`,
         borderLeft: `4px solid ${classColor}`,
         color: isBooked ? "#ffffff" : "inherit",
       }}
     >
       <div className="space-y-1">
-        <div className={cn("font-semibold truncate", isBooked && "text-white")}>
-          {classItem.class.name}
-        </div>
+        <div className={cn("font-semibold truncate", isBooked && "text-white")}>{classItem.class.name}</div>
         <div className={cn("text-xs", isBooked ? "text-white/90" : "text-muted-foreground")}>
           {formatTime(classItem.start_time)}
         </div>
@@ -168,9 +162,7 @@ export function WeeklyScheduleGrid({ classes, currentWeekStart, onClassSelect }:
         {/* Header with day names */}
         <div className="grid grid-cols-8 gap-2 mb-2">
           {/* Empty corner cell for time column */}
-          <div className="text-center font-semibold text-sm text-muted-foreground p-2">
-            Godzina
-          </div>
+          <div className="text-center font-semibold text-sm text-muted-foreground p-2">Godzina</div>
 
           {/* Day headers */}
           {Array.from({ length: 7 }).map((_, dayIndex) => {
@@ -180,13 +172,9 @@ export function WeeklyScheduleGrid({ classes, currentWeekStart, onClassSelect }:
             return (
               <div
                 key={dayIndex}
-                className={`text-center p-3 rounded-t-lg ${
-                  weekend ? "bg-muted/50" : "bg-background"
-                }`}
+                className={`text-center p-3 rounded-t-lg ${weekend ? "bg-muted/50" : "bg-background"}`}
               >
-                <h3 className={`font-semibold text-sm ${weekend ? "text-primary" : ""}`}>
-                  {DAY_NAMES[dayIndex]}
-                </h3>
+                <h3 className={`font-semibold text-sm ${weekend ? "text-primary" : ""}`}>{DAY_NAMES[dayIndex]}</h3>
                 <p className="text-xs text-muted-foreground mt-1">{formatDate(dayDate)}</p>
               </div>
             );
@@ -199,9 +187,7 @@ export function WeeklyScheduleGrid({ classes, currentWeekStart, onClassSelect }:
             <div key={hour} className="grid grid-cols-8 gap-2">
               {/* Time label */}
               <div className="flex items-start justify-center pt-2">
-                <span className="text-sm font-medium text-muted-foreground">
-                  {formatTimeSlot(hour)}
-                </span>
+                <span className="text-sm font-medium text-muted-foreground">{formatTimeSlot(hour)}</span>
               </div>
 
               {/* Day cells */}
@@ -238,4 +224,3 @@ export function WeeklyScheduleGrid({ classes, currentWeekStart, onClassSelect }:
     </div>
   );
 }
-

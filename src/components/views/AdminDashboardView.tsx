@@ -13,9 +13,7 @@ export function AdminDashboardView() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Panel Administracyjny</h1>
-          <p className="text-muted-foreground">
-            Przegląd kluczowych wskaźników wydajności klubu
-          </p>
+          <p className="text-muted-foreground">Przegląd kluczowych wskaźników wydajności klubu</p>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
@@ -51,9 +49,7 @@ export function AdminDashboardView() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Panel Administracyjny</h1>
-          <p className="text-muted-foreground">
-            Przegląd kluczowych wskaźników wydajności klubu
-          </p>
+          <p className="text-muted-foreground">Przegląd kluczowych wskaźników wydajności klubu</p>
         </div>
 
         <Card className="border-destructive">
@@ -77,9 +73,7 @@ export function AdminDashboardView() {
               </div>
               <div>
                 <h3 className="font-semibold text-lg">Wystąpił błąd</h3>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {error.message}
-                </p>
+                <p className="text-sm text-muted-foreground mt-1">{error.message}</p>
               </div>
             </div>
           </CardContent>
@@ -94,16 +88,12 @@ export function AdminDashboardView() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Panel Administracyjny</h1>
-          <p className="text-muted-foreground">
-            Przegląd kluczowych wskaźników wydajności klubu
-          </p>
+          <p className="text-muted-foreground">Przegląd kluczowych wskaźników wydajności klubu</p>
         </div>
 
         <Card>
           <CardContent className="pt-6">
-            <p className="text-center text-muted-foreground">
-              Brak danych do wyświetlenia
-            </p>
+            <p className="text-center text-muted-foreground">Brak danych do wyświetlenia</p>
           </CardContent>
         </Card>
       </div>
@@ -119,9 +109,7 @@ export function AdminDashboardView() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Panel Administracyjny</h1>
-        <p className="text-muted-foreground">
-          Przegląd kluczowych wskaźników wydajności klubu
-        </p>
+        <p className="text-muted-foreground">Przegląd kluczowych wskaźników wydajności klubu</p>
       </div>
 
       {/* KPI Cards Grid */}
@@ -177,4 +165,3 @@ export function AdminDashboardView() {
     </div>
   );
 }
-

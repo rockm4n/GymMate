@@ -39,7 +39,10 @@ function groupClassesByDay(classes: ScheduleViewModel[]): Map<string, ScheduleVi
     if (!grouped.has(dayKey)) {
       grouped.set(dayKey, []);
     }
-    grouped.get(dayKey)!.push(classItem);
+    const dayClasses = grouped.get(dayKey);
+    if (dayClasses) {
+      dayClasses.push(classItem);
+    }
   });
 
   // Sort classes within each day by start time
@@ -58,11 +61,7 @@ export function Scheduler({ classes, currentWeekStart, onClassSelect }: Schedule
     <div className="space-y-8">
       {/* Desktop view: Weekly grid with time slots */}
       <div className="hidden md:block">
-        <WeeklyScheduleGrid
-          classes={classes}
-          currentWeekStart={currentWeekStart}
-          onClassSelect={onClassSelect}
-        />
+        <WeeklyScheduleGrid classes={classes} currentWeekStart={currentWeekStart} onClassSelect={onClassSelect} />
       </div>
 
       {/* Mobile view: List layout */}
@@ -76,7 +75,9 @@ export function Scheduler({ classes, currentWeekStart, onClassSelect }: Schedule
           </div>
         ) : (
           sortedDays.map((dayKey) => {
-            const dayClasses = groupedClasses.get(dayKey)!;
+            const dayClasses = groupedClasses.get(dayKey);
+            if (!dayClasses) return null;
+
             const date = new Date(dayKey);
 
             return (
@@ -90,11 +91,7 @@ export function Scheduler({ classes, currentWeekStart, onClassSelect }: Schedule
                 {/* Classes for this day */}
                 <div className="space-y-3">
                   {dayClasses.map((classItem) => (
-                    <SchedulerItem
-                      key={classItem.id}
-                      classItem={classItem}
-                      onClick={() => onClassSelect(classItem)}
-                    />
+                    <SchedulerItem key={classItem.id} classItem={classItem} onClick={() => onClassSelect(classItem)} />
                   ))}
                 </div>
               </div>
@@ -105,4 +102,3 @@ export function Scheduler({ classes, currentWeekStart, onClassSelect }: Schedule
     </div>
   );
 }
-

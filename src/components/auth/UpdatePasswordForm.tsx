@@ -34,7 +34,7 @@ export function UpdatePasswordForm() {
 
     // Validate form data
     const result = updatePasswordSchema.safeParse(formData);
-    
+
     if (!result.success) {
       const fieldErrors: Partial<Record<keyof UpdatePasswordInput, string>> = {};
       result.error.errors.forEach((error) => {
@@ -49,8 +49,8 @@ export function UpdatePasswordForm() {
 
     // TODO: Implement Supabase password update
     // This will be implemented in the next phase
-    console.log("Password update attempt:", result.data);
-    
+    // Password update attempt: result.data
+
     // Simulate success
     setIsSuccess(true);
     setIsLoading(false);
@@ -62,11 +62,10 @@ export function UpdatePasswordForm() {
         <div className="p-4 rounded-md bg-primary/10 border border-primary/20 text-primary">
           <p className="font-medium mb-2">Hasło zostało zmienione!</p>
           <p className="text-sm">
-            Twoje hasło zostało pomyślnie zaktualizowane. Możesz teraz zalogować się
-            używając nowego hasła.
+            Twoje hasło zostało pomyślnie zaktualizowane. Możesz teraz zalogować się używając nowego hasła.
           </p>
         </div>
-        
+
         <Button asChild className="w-full">
           <a href="/login">Przejdź do logowania</a>
         </Button>
@@ -120,4 +119,3 @@ export function UpdatePasswordForm() {
     </form>
   );
 }
-

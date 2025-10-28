@@ -8,15 +8,10 @@ interface UserNavProps {
   userRole?: "member" | "staff";
 }
 
-export function UserNav({ 
-  isAuthenticated = false, 
-  userEmail,
-  userName,
-  userRole = "member" 
-}: UserNavProps) {
+export function UserNav({ isAuthenticated = false, userEmail, userName, userRole = "member" }: UserNavProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  
+
   // Display name: prefer userName, fallback to email username, then first letter
   const displayName = userName || userEmail?.split("@")[0] || userEmail || "User";
   const avatarLetter = (userName || userEmail)?.[0]?.toUpperCase() || "U";
@@ -26,7 +21,7 @@ export function UserNav({
     if (isLoggingOut) return;
 
     setIsLoggingOut(true);
-    
+
     try {
       const response = await fetch("/api/auth/logout", {
         method: "POST",
@@ -40,11 +35,11 @@ export function UserNav({
         // Using window.location.href for full page reload to clear all client state
         window.location.href = "/";
       } else {
-        console.error("Logout failed");
+        // Logout failed
         setIsLoggingOut(false);
       }
-    } catch (error) {
-      console.error("Logout error:", error);
+    } catch {
+      // Logout error occurred
       setIsLoggingOut(false);
     }
   };
@@ -76,9 +71,7 @@ export function UserNav({
         </div>
         <div className="hidden sm:flex sm:flex-col sm:items-start">
           <span className="text-sm font-medium">{displayName}</span>
-          {userEmail && userName && (
-            <span className="text-xs text-muted-foreground">{userEmail}</span>
-          )}
+          {userEmail && userName && <span className="text-xs text-muted-foreground">{userEmail}</span>}
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -100,14 +93,10 @@ export function UserNav({
       {isMenuOpen && (
         <>
           {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-40"
-            onClick={() => setIsMenuOpen(false)}
-            aria-hidden="true"
-          />
+          <div className="fixed inset-0 z-40" onClick={() => setIsMenuOpen(false)} aria-hidden="true" />
 
           {/* Menu */}
-          <div 
+          <div
             className="absolute right-0 top-full mt-2 z-50 min-w-[240px] rounded-md border bg-popover p-1 shadow-md"
             role="menu"
             aria-label="Menu użytkownika"
@@ -115,9 +104,7 @@ export function UserNav({
             {/* User Info Section */}
             <div className="px-3 py-2 border-b mb-1">
               <p className="text-sm font-medium">{displayName}</p>
-              {userEmail && (
-                <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
-              )}
+              {userEmail && <p className="text-xs text-muted-foreground truncate">{userEmail}</p>}
               {isStaff && (
                 <span className="inline-flex items-center mt-1 px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
                   Personel
@@ -149,7 +136,7 @@ export function UserNav({
               </svg>
               Mój Profil
             </a>
-            
+
             <a
               href="/app/schedule"
               className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-accent transition-colors"
@@ -239,4 +226,3 @@ export function UserNav({
     </nav>
   );
 }
-

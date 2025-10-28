@@ -7,11 +7,13 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ## ✅ Wykonane Zadania
 
 ### 1. Aktualizacja Schematów Walidacji
+
 - **Plik:** `src/lib/schemas/auth.schema.ts`
 - **Zmiany:** Zwiększono minimalną długość hasła z 6 na 8 znaków (zgodność z domyślnymi ustawieniami Supabase)
 - Dotyczy: `loginSchema`, `registerSchema`, `updatePasswordSchema`
 
 ### 2. Rozszerzenie Klienta Supabase
+
 - **Plik:** `src/db/supabase.client.ts`
 - **Dodano:**
   - `createSupabaseServerInstance()` - funkcja tworząca server client dla SSR
@@ -22,6 +24,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 - **Pakiety:** Dodano `@supabase/ssr` do dependencies
 
 ### 3. Przepisanie Middleware
+
 - **Plik:** `src/middleware/index.ts`
 - **Implementacja Hybrid Auth:**
   - **API routes** (`/api/*`): Uwierzytelnianie przez JWT Bearer token
@@ -37,6 +40,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ### 4. Endpointy API Autentykacji
 
 #### `/api/auth/login.ts`
+
 - **Metoda:** POST
 - **Request body:** `{ email, password }`
 - **Funkcjonalność:**
@@ -47,6 +51,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 - **Response:** `{ user }` lub `{ error }`
 
 #### `/api/auth/register.ts`
+
 - **Metoda:** POST
 - **Request body:** `{ email, password, confirmPassword }`
 - **Funkcjonalność:**
@@ -57,6 +62,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 - **Response:** `{ user }` lub `{ error }`
 
 #### `/api/auth/logout.ts`
+
 - **Metoda:** POST
 - **Funkcjonalność:**
   - Wywołanie `supabase.auth.signOut()`
@@ -66,6 +72,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ### 5. Integracja Komponentów React
 
 #### `LoginForm.tsx`
+
 - **Zmiany:**
   - Wywołanie API `/api/auth/login` po walidacji
   - Obsługa błędów z API
@@ -73,6 +80,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
   - Loading state podczas logowania
 
 #### `RegisterForm.tsx`
+
 - **Zmiany:**
   - Wywołanie API `/api/auth/register` po walidacji
   - Obsługa błędów z API
@@ -80,6 +88,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
   - Loading state podczas rejestracji
 
 #### `UserNav.tsx`
+
 - **Zmiany:**
   - Implementacja funkcji `handleLogout()`
   - Wywołanie API `/api/auth/logout`
@@ -89,20 +98,24 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ### 6. Aktualizacja Stron Astro
 
 #### `login.astro`
+
 - **Dodano:** Server-side check sesji użytkownika
 - **Logika:** Jeśli użytkownik zalogowany → redirect `/app/schedule`
 
 #### `register.astro`
+
 - **Dodano:** Server-side check sesji użytkownika
 - **Logika:** Jeśli użytkownik zalogowany → redirect `/app/schedule`
 
 #### `Layout.astro`
+
 - **Zmiany:**
   - Pobieranie danych sesji z `Astro.locals.user`
   - Przekazywanie `isAuthenticated` i `userEmail` do `UserNav`
   - Usunięcie hardcoded wartości
 
 ### 7. Aktualizacja TypeScript Types
+
 - **Plik:** `src/env.d.ts`
 - **Zmiany:**
   - Import `SupabaseClient` z lokalnego pliku (zgodnie z Cursor rules)
@@ -111,6 +124,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ## 🏗️ Architektura Autentykacji
 
 ### Flow Logowania (US-002)
+
 ```
 1. Użytkownik → /login (Astro page)
 2. Sprawdzenie: user zalogowany? → redirect /app/schedule
@@ -125,6 +139,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ```
 
 ### Flow Rejestracji (US-001)
+
 ```
 1. Użytkownik → /register (Astro page)
 2. Sprawdzenie: user zalogowany? → redirect /app/schedule
@@ -139,6 +154,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ```
 
 ### Flow Wylogowania
+
 ```
 1. Użytkownik → klik "Wyloguj się" w UserNav
 2. POST /api/auth/logout
@@ -150,6 +166,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ```
 
 ### Ochrona Stron SSR
+
 ```
 1. Request do /app/schedule
 2. Middleware wykonuje: createSupabaseServerInstance()
@@ -160,6 +177,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ```
 
 ### Ochrona API (JWT)
+
 ```
 1. Request do /api/bookings z Authorization: Bearer <token>
 2. Middleware: wykrywa /api/* route
@@ -172,6 +190,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ## 🔒 Bezpieczeństwo
 
 ### Cookie Configuration
+
 ```typescript
 {
   path: "/",
@@ -182,11 +201,13 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ```
 
 ### Walidacja
+
 - **Client-side:** Zod schemas w React forms (szybki feedback)
 - **Server-side:** Zod schemas w API endpoints (bezpieczeństwo)
 - **Double validation** zapewnia defense-in-depth
 
 ### Error Handling
+
 - Mapowanie błędów Supabase na user-friendly komunikaty (PL)
 - Brak wycieków informacji o systemie
 - Logging błędów na serwerze (console.error)
@@ -194,6 +215,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ## 📝 Wymagania PRD - Status
 
 ### ✅ US-001: Rejestracja nowego użytkownika
+
 - [x] Formularz z email, password, confirmPassword
 - [x] Walidacja formatu email
 - [x] Hasło min 8 znaków
@@ -203,15 +225,17 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 - [x] Komunikat błędu dla istniejącego email
 
 ### ✅ US-002: Logowanie do systemu
+
 - [x] Formularz z email, password
 - [x] Redirect do /app/schedule po logowaniu
 - [x] Komunikat błędu dla błędnych danych
 
 ### ✅ Dodatkowe Funkcjonalności
+
 - [x] Server-side session management (cookies)
 - [x] Auto-redirect zalogowanych z /login, /register
-- [x] Ochrona routes /app/*
-- [x] Ochrona admin routes /admin/*
+- [x] Ochrona routes /app/\*
+- [x] Ochrona admin routes /admin/\*
 - [x] UserNav z email i menu
 - [x] Wylogowanie
 - [x] Hybrid auth (SSR cookies + API JWT)
@@ -221,6 +245,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 ### Testy Manualne - Checklist
 
 #### Rejestracja
+
 - [ ] Otwórz `/register`
 - [ ] Spróbuj submit z pustymi polami → błędy walidacji
 - [ ] Wprowadź nieprawidłowy email → błąd walidacji
@@ -231,6 +256,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 - [ ] Spróbuj wejść na `/register` → auto-redirect `/app/schedule`
 
 #### Logowanie
+
 - [ ] Wyloguj się
 - [ ] Otwórz `/login`
 - [ ] Spróbuj submit z pustymi polami → błędy walidacji
@@ -239,6 +265,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 - [ ] Sprawdź czy UserNav pokazuje email
 
 #### Wylogowanie
+
 - [ ] Zaloguj się
 - [ ] Kliknij UserNav → "Wyloguj się"
 - [ ] Redirect do `/`
@@ -246,6 +273,7 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
 - [ ] Spróbuj wejść na `/app/schedule` → redirect `/login`
 
 #### Ochrona Routes
+
 - [ ] Wylogowany: `/app/profile` → redirect `/login`
 - [ ] Wylogowany: `/app/schedule` → redirect `/login`
 - [ ] Zalogowany regular user: `/admin/dashboard` → redirect `/`
@@ -271,7 +299,9 @@ Pomyślnie zintegrowano autentykację użytkowników z Supabase Auth, zgodnie z 
    ```
 
 ### Environment Variables
+
 Upewnij się, że `.env` zawiera:
+
 ```env
 SUPABASE_URL=your_supabase_project_url
 SUPABASE_KEY=your_supabase_anon_key
@@ -280,6 +310,7 @@ SUPABASE_KEY=your_supabase_anon_key
 ## 🚀 Następne Kroki
 
 ### Do Implementacji (poza zakresem tego zadania)
+
 1. **Forgot Password Flow** (`/forgot-password`, `/update-password`)
    - Endpoint `/api/auth/forgot-password`
    - Endpoint `/api/auth/update-password`
@@ -298,6 +329,7 @@ SUPABASE_KEY=your_supabase_anon_key
 ## 📚 Dokumentacja
 
 ### Pliki Zmienione/Utworzone
+
 ```
 src/
 ├── lib/schemas/auth.schema.ts (modified)
@@ -321,6 +353,7 @@ package.json (modified - added @supabase/ssr)
 ```
 
 ### Cursor Rules Compliance
+
 - ✅ Używa `@supabase/ssr` (zgodnie z supabase-auth.mdc)
 - ✅ Cookie-based session dla SSR (zgodnie z supabase-auth.mdc)
 - ✅ Używa `getAll` i `setAll` dla cookies (zgodnie z supabase-auth.mdc)
@@ -336,4 +369,3 @@ package.json (modified - added @supabase/ssr)
 Implementacja autentykacji jest **kompletna i gotowa do testowania**. System spełnia wszystkie wymagania z PRD (US-001, US-002) oraz specyfikacji technicznej. Kod jest zgodny z najlepszymi praktykami Astro, React i Supabase Auth, a także przestrzega wszystkich Cursor Rules projektu.
 
 **Status:** ✅ **READY FOR QA**
-

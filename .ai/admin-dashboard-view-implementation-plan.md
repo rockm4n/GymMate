@@ -1,15 +1,19 @@
 # Plan implementacji widoku Panel Administracyjny (Dashboard)
 
 ## 1. Przegląd
+
 Celem tego widoku jest dostarczenie personelowi klubu (użytkownikom z rolą `STAFF`) szybkiego i czytelnego wglądu w kluczowe wskaźniki efektywności (KPI). Dashboard będzie wyświetlał dane w czasie niemal rzeczywistym dzięki mechanizmowi automatycznego odświeżania (polling), co pozwoli na bieżąco monitorować działalność klubu.
 
 ## 2. Routing widoku
+
 Widok będzie dostępny pod następującą ścieżką:
+
 - `/admin/dashboard`
 
 Dostęp do tej ścieżki będzie chroniony przez Astro middleware, które zapewni, że tylko zalogowani użytkownicy z rolą `STAFF` będą mogli go wyświetlić.
 
 ## 3. Struktura komponentów
+
 Hierarchia komponentów dla widoku panelu administracyjnego będzie następująca:
 
 ```
@@ -26,6 +30,7 @@ Hierarchia komponentów dla widoku panelu administracyjnego będzie następując
 ## 4. Szczegóły komponentów
 
 ### `AdminDashboardView.tsx`
+
 - **Opis komponentu**: Główny komponent React, który zarządza stanem całego widoku. Odpowiada za pobieranie danych z API, obsługę stanu ładowania i błędów, implementację mechanizmu pollingu oraz renderowanie komponentów podrzędnych z odpowiednimi danymi.
 - **Główne elementy**: Wykorzystuje niestandardowy hook `useAdminDashboardData` do logiki pobierania danych. Warunkowo renderuje: komponenty szkieletowe (`Skeleton` z shadcn/ui) w stanie ładowania, komunikat o błędzie, lub kontenery z komponentami `KpiCard` i `PopularClassesChart`.
 - **Obsługiwane interakcje**: Brak bezpośrednich interakcji użytkownika. Komponent automatycznie odświeża dane w tle.
@@ -34,6 +39,7 @@ Hierarchia komponentów dla widoku panelu administracyjnego będzie następując
 - **Propsy**: Brak.
 
 ### `KpiCard.tsx`
+
 - **Opis komponentu**: Komponent prezentacyjny służący do wyświetlania pojedynczego wskaźnika KPI. Składa się z tytułu, wartości i opisu. Zostanie zbudowany na bazie komponentu `Card` z biblioteki shadcn/ui.
 - **Główne elementy**: `Card`, `CardHeader`, `CardTitle`, `CardContent` z shadcn/ui.
 - **Obsługiwane interakcje**: Brak.
@@ -50,6 +56,7 @@ Hierarchia komponentów dla widoku panelu administracyjnego będzie następując
   ```
 
 ### `PopularClassesChart.tsx`
+
 - **Opis komponentu**: Komponent służący do wizualizacji najpopularniejszych zajęć w formie wykresu słupkowego. Wykorzysta bibliotekę `recharts` zintegrowaną z shadcn/ui.
 - **Główne elementy**: `BarChart`, `Bar`, `XAxis`, `YAxis`, `Tooltip` z `recharts`. Całość opakowana w komponent `Card` z shadcn/ui.
 - **Obsługiwane interakcje**: Wyświetlanie szczegółów (tooltip) po najechaniu na słupek wykresu.
@@ -66,6 +73,7 @@ Hierarchia komponentów dla widoku panelu administracyjnego będzie następując
   ```
 
 ## 5. Typy
+
 Do implementacji widoku wykorzystane zostaną istniejące typy. Nie ma potrzeby tworzenia nowych.
 
 - **`AdminDashboardDto`**: Główny DTO reprezentujący dane z endpointu.
@@ -83,6 +91,7 @@ Do implementacji widoku wykorzystane zostaną istniejące typy. Nie ma potrzeby 
   Przed przekazaniem do komponentów, dane z tego typu zostaną sformatowane (np. `today_occupancy_rate` z `0.85` na `"85%"`).
 
 ## 6. Zarządzanie stanem
+
 Logika zarządzania stanem zostanie wyizolowana w niestandardowym hooku `useAdminDashboardData`.
 
 - **`useAdminDashboardData.ts`**:
@@ -100,6 +109,7 @@ Logika zarządzania stanem zostanie wyizolowana w niestandardowym hooku `useAdmi
     6. Zwraca obiekt `{ data, isLoading, error }`.
 
 ## 7. Integracja API
+
 Integracja z API będzie realizowana poprzez wywołanie endpointu `GET /api/admin/dashboard`.
 
 - **Żądanie**:
@@ -117,12 +127,14 @@ Integracja z API będzie realizowana poprzez wywołanie endpointu `GET /api/admi
   - **Obsługa**: Hook `useAdminDashboardData` przechwytuje błąd. Komponent `AdminDashboardView` wyświetla odpowiedni komunikat błędu na podstawie statusu odpowiedzi.
 
 ## 8. Interakcje użytkownika
+
 - **Nawigacja do `/admin/dashboard`**:
   - **Wynik**: Użytkownik widzi stan ładowania (szkielet interfejsu), a następnie, po pomyślnym załadowaniu danych, pełny dashboard. Dane odświeżają się automatycznie.
 - **Najechanie na wykres**:
   - **Wynik**: Wyświetlony zostaje tooltip ze szczegółową liczbą rezerwacji dla danych zajęć.
 
 ## 9. Warunki i walidacja
+
 - **Warunek dostępu**: Użytkownik musi posiadać rolę `STAFF`.
   - **Weryfikacja**: Po stronie serwera (middleware).
   - **Wpływ na UI**: W przypadku braku uprawnień (`403 Forbidden`), interfejs wyświetli komunikat o braku dostępu zamiast dashboardu.
@@ -131,12 +143,14 @@ Integracja z API będzie realizowana poprzez wywołanie endpointu `GET /api/admi
   - **Wpływ na UI**: Wykres wyświetli informację "Brak danych do wyświetlenia".
 
 ## 10. Obsługa błędów
+
 - **Brak uprawnień (401, 403)**: Wyświetlany jest dedykowany komunikat, np. "Nie masz uprawnień do przeglądania tej strony. Skontaktuj się z administratorem."
 - **Błąd serwera (500)**: Wyświetlany jest ogólny komunikat o błędzie, np. "Wystąpił błąd serwera. Spróbuj odświeżyć stronę później."
 - **Błąd sieci**: Wyświetlany jest komunikat o problemie z połączeniem, np. "Brak połączenia z serwerem. Sprawdź swoje połączenie internetowe."
 - **Stan ładowania**: Aby uniknąć pustego ekranu i skoków layoutu (CLS), podczas ładowania danych wyświetlane będą komponenty szkieletowe (`Skeleton`) imitujące finalny wygląd dashboardu.
 
 ## 11. Kroki implementacji
+
 1. **Utworzenie struktury plików**:
    - `src/pages/admin/dashboard.astro`
    - `src/components/views/AdminDashboardView.tsx`

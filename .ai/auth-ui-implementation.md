@@ -13,6 +13,7 @@ Utworzono brakujące komponenty UI potrzebne do formularzy:
 ### 2. Schematy Walidacji (Zod)
 
 `src/lib/schemas/auth.schema.ts` - Zawiera schematy walidacji dla:
+
 - `loginSchema` - Logowanie (email, password)
 - `registerSchema` - Rejestracja (email, password, confirmPassword) z walidacją zgodności haseł
 - `forgotPasswordSchema` - Zapomniałem hasła (email)
@@ -25,6 +26,7 @@ Wszystkie schematy mają polskie komunikaty błędów.
 Utworzono w katalogu `src/components/auth/`:
 
 #### `LoginForm.tsx`
+
 - Formularz logowania z polami email i hasło
 - Walidacja po stronie klienta z użyciem zod
 - Obsługa błędów walidacji (wyświetlane pod polami)
@@ -34,6 +36,7 @@ Utworzono w katalogu `src/components/auth/`:
 - TODO: Integracja z Supabase Auth
 
 #### `RegisterForm.tsx`
+
 - Formularz rejestracji z polami email, hasło i powtórzenie hasła
 - Walidacja zgodności haseł
 - Obsługa błędów walidacji
@@ -42,6 +45,7 @@ Utworzono w katalogu `src/components/auth/`:
 - TODO: Integracja z Supabase Auth
 
 #### `ForgotPasswordForm.tsx`
+
 - Prosty formularz z polem email
 - Opis pomocniczy pod polem
 - Komunikat sukcesu po wysłaniu
@@ -49,6 +53,7 @@ Utworzono w katalogu `src/components/auth/`:
 - TODO: Integracja z Supabase Auth
 
 #### `UpdatePasswordForm.tsx`
+
 - Formularz zmiany hasła
 - Pola: nowe hasło i powtórzenie
 - Walidacja zgodności haseł
@@ -56,9 +61,10 @@ Utworzono w katalogu `src/components/auth/`:
 - TODO: Integracja z Supabase Auth
 
 #### `UserNav.tsx`
+
 - Komponent nawigacyjny dla zalogowanych i niezalogowanych użytkowników
 - Dla niezalogowanych: przyciski "Zaloguj się" i "Zarejestruj się"
-- Dla zalogowanych: 
+- Dla zalogowanych:
   - Avatar z pierwszą literą emaila
   - Menu dropdown z opcjami:
     - Profil
@@ -72,6 +78,7 @@ Utworzono w katalogu `src/components/auth/`:
 Utworzono strony autentykacji z jednolitym, nowoczesnym designem:
 
 #### `src/pages/login.astro`
+
 - Strona logowania
 - Wycentrowana karta z formularzem
 - Gradient background
@@ -79,33 +86,39 @@ Utworzono strony autentykacji z jednolitym, nowoczesnym designem:
 - TODO: Przekierowanie dla zalogowanych użytkowników
 
 #### `src/pages/register.astro`
+
 - Strona rejestracji
 - Identyczna stylistyka co login
 - TODO: Przekierowanie dla zalogowanych użytkowników
 
 #### `src/pages/forgot-password.astro`
+
 - Strona resetowania hasła
 - Spójna stylistyka
 
 #### `src/pages/update-password.astro`
+
 - Strona zmiany hasła (dostępna z linku w emailu)
 - TODO: Walidacja tokena odzyskiwania z Supabase
 
 ### 5. Modyfikacje istniejących komponentów
 
 #### `src/layouts/Layout.astro`
+
 - Dodano opcjonalny parametr `showNav` do wyświetlania nawigacji
 - Dodano header z logo GymMate i komponentem UserNav
 - Przygotowane do integracji z danymi sesji (Astro.locals)
 - Na razie przekazuje statyczne wartości do UserNav
 
 #### `src/components/Welcome.astro`
+
 - Dodano sekcję "Nawigacja" z linkami do:
   - Stron autentykacji (Login, Register, Forgot Password, Update Password)
   - Stron aplikacji (Schedule, Profile)
 - Ułatwia testowanie wszystkich widoków
 
 #### Strony aplikacji
+
 - `src/pages/app/schedule.astro` - Dodano `showNav={true}`
 - `src/pages/app/profile.astro` - Dodano `showNav={true}`
 - `src/pages/admin/dashboard.astro` - Dodano `showNav={true}`
@@ -119,6 +132,7 @@ npm install @radix-ui/react-label
 ## Cechy implementacji
 
 ### Zgodność ze specyfikacją
+
 - ✅ Wszystkie komponenty zgodne z `auth-spec.md`
 - ✅ Wykorzystano React dla interaktywności
 - ✅ Wykorzystano Astro dla stron statycznych
@@ -126,12 +140,14 @@ npm install @radix-ui/react-label
 - ✅ Walidacja z użyciem Zod
 
 ### Dostępność (A11y)
+
 - ✅ Prawidłowe powiązania label-input
 - ✅ Atrybuty `aria-invalid` dla pól z błędami
 - ✅ Atrybuty `aria-expanded` i `aria-haspopup` dla menu
 - ✅ Atrybuty `autoComplete` dla lepszego UX
 
 ### UX
+
 - ✅ Komunikaty błędów walidacji pod polami
 - ✅ Ogólne komunikaty błędów API (placeholder)
 - ✅ Stany ładowania (disabled inputs, zmiana tekstu przycisku)
@@ -141,6 +157,7 @@ npm install @radix-ui/react-label
 - ✅ Spójna stylistyka z resztą aplikacji
 
 ### Clean Code
+
 - ✅ Wczesna obsługa błędów (early returns)
 - ✅ Pojedyncza odpowiedzialność komponentów
 - ✅ Typowanie TypeScript
@@ -150,6 +167,7 @@ npm install @radix-ui/react-label
 ## Następne kroki (TODO)
 
 ### Backend i integracja
+
 1. Implementacja middleware Supabase w `src/middleware/index.ts`
 2. Konfiguracja klientów Supabase (browser i server)
 3. Dodanie logiki autentykacji w komponentach:
@@ -161,10 +179,11 @@ npm install @radix-ui/react-label
 4. Przekierowania po pomyślnych operacjach
 5. Obsługa błędów z API Supabase
 6. Przekierowania dla zalogowanych użytkowników na stronach auth
-7. Przekierowania dla niezalogowanych na stronach /app/*
+7. Przekierowania dla niezalogowanych na stronach /app/\*
 8. Integracja z toastami (Sonner) dla powiadomień
 
 ### Konfiguracja Supabase
+
 1. Wyłączenie potwierdzenia emaila w panelu Supabase
 2. Konfiguracja URL przekierowania dla resetowania hasła
 3. Utworzenie triggera dla automatycznego tworzenia profilu
@@ -176,6 +195,7 @@ npm run dev
 ```
 
 Dostępne strony:
+
 - http://localhost:4321/ - Strona główna z nawigacją
 - http://localhost:4321/login - Logowanie
 - http://localhost:4321/register - Rejestracja
@@ -184,4 +204,3 @@ Dostępne strony:
 - http://localhost:4321/app/schedule - Harmonogram (z nawigacją)
 - http://localhost:4321/app/profile - Profil (z nawigacją)
 - http://localhost:4321/admin/dashboard - Panel admin (z nawigacją)
-

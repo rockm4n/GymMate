@@ -44,11 +44,7 @@ export function ScheduleView() {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Harmonogram zajęć</h1>
 
-      <WeekNavigator
-        currentWeek={currentWeekStartDate}
-        onPreviousWeek={goToPreviousWeek}
-        onNextWeek={goToNextWeek}
-      />
+      <WeekNavigator currentWeek={currentWeekStartDate} onPreviousWeek={goToPreviousWeek} onNextWeek={goToNextWeek} />
 
       {isLoading ? (
         <div className="flex items-center justify-center min-h-[400px]">
@@ -58,11 +54,7 @@ export function ScheduleView() {
           </div>
         </div>
       ) : (
-        <Scheduler
-          classes={scheduledClasses}
-          currentWeekStart={currentWeekStartDate}
-          onClassSelect={selectClass}
-        />
+        <Scheduler classes={scheduledClasses} currentWeekStart={currentWeekStartDate} onClassSelect={selectClass} />
       )}
 
       <ClassDetailsModal
@@ -75,4 +67,3 @@ export function ScheduleView() {
     </div>
   );
 }
-

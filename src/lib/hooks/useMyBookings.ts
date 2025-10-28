@@ -3,7 +3,7 @@
  * Handles fetching, state management, and cancellation logic.
  */
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import type { BookingDto, BookingViewModel } from "@/types";
 import { transformBookingToViewModel } from "@/lib/view-models";
 
@@ -48,7 +48,7 @@ export function useMyBookings(): UseMyBookingsReturn {
       } else {
         setHistoricalBookings(viewModels);
       }
-    } catch (err) {
+    } catch {
       setError(new Error("Nieznany błąd"));
     } finally {
       setIsLoading(false);
@@ -65,7 +65,7 @@ export function useMyBookings(): UseMyBookingsReturn {
 
     // Optymistyczna aktualizacja UI - usuwamy rezerwację z listy
     setUpcomingBookings((prev) => prev.filter((b) => b.id !== bookingId));
-    closeCancelDialog();
+    setBookingToCancelId(null); // Close dialog directly
 
     try {
       const response = await fetch(`/api/bookings/${bookingId}`, {
@@ -75,7 +75,7 @@ export function useMyBookings(): UseMyBookingsReturn {
       if (!response.ok) {
         throw new Error(`Nie udało się anulować rezerwacji: ${response.statusText}`);
       }
-    } catch (err) {
+    } catch {
       // W przypadku błędu, przywróć rezerwację na listę
       await fetchBookings("UPCOMING");
       setError(new Error("Nieznany błąd"));
@@ -108,4 +108,3 @@ export function useMyBookings(): UseMyBookingsReturn {
     closeCancelDialog,
   };
 }
-

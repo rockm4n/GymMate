@@ -14,6 +14,7 @@ CREATE TYPE class_status AS ENUM ('SCHEDULED', 'CANCELLED', 'COMPLETED');
 ### Tabele
 
 #### `profiles`
+
 Tabela rozszerzająca `auth.users` z Supabase, przechowująca dodatkowe informacje o użytkownikach, w tym ich rolę w systemie.
 
 ```sql
@@ -27,6 +28,7 @@ CREATE TABLE public.profiles (
 ```
 
 #### `instructors`
+
 Tabela przechowująca informacje o instruktorach prowadzących zajęcia.
 
 ```sql
@@ -41,6 +43,7 @@ CREATE TABLE public.instructors (
 ```
 
 #### `class_categories`
+
 Słownik kategorii, do których mogą należeć zajęcia.
 
 ```sql
@@ -53,6 +56,7 @@ CREATE TABLE public.class_categories (
 ```
 
 #### `classes`
+
 Definicje ogólne zajęć, które mogą być następnie umieszczane w harmonogramie.
 
 ```sql
@@ -68,6 +72,7 @@ CREATE TABLE public.classes (
 ```
 
 #### `scheduled_classes`
+
 Konkretne wystąpienia zajęć w harmonogramie, z przypisanym terminem, instruktorem i limitem miejsc.
 
 ```sql
@@ -86,6 +91,7 @@ CREATE TABLE public.scheduled_classes (
 ```
 
 #### `bookings`
+
 Tabela przechowująca rezerwacje dokonane przez użytkowników na konkretne zajęcia w harmonogramie.
 
 ```sql
@@ -99,6 +105,7 @@ CREATE TABLE public.bookings (
 ```
 
 #### `waiting_list`
+
 Tabela przechowująca zapisy na listę oczekujących, gdy na zajęciach zabraknie wolnych miejsc.
 
 ```sql

@@ -14,13 +14,8 @@ export function BookingList({ bookings, onCancelClick }: BookingListProps) {
   return (
     <div className="space-y-4">
       {bookings.map((booking) => (
-        <BookingListItem
-          key={booking.id}
-          booking={booking}
-          onCancelClick={onCancelClick}
-        />
+        <BookingListItem key={booking.id} booking={booking} onCancelClick={onCancelClick} />
       ))}
     </div>
   );
 }
-
